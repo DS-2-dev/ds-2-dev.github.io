@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0f172a; /* Dark mode 2026 aesthetic */
+    color: #f8fafc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+h1 {
+    color: #38bdf8; /* Light blue accent */
+    letter-spacing: 4px;
+}
+
+button {
+    background-color: #38bdf8;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: #0f172a;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
