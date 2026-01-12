@@ -1,31 +1,280 @@
-body {
+/* Reset and cross-browser defaults */
+*, *::before, *::after {
+    box-sizing: border-box;
     margin: 0;
+    padding: 0;
+}
+
+/* Local font import (user-provided) */
+@font-face {
+    font-family: 'NeutronD';
+    src: url('neutrond.ttf') format('truetype');
+    font-weight: 300 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --bar-color: #ff6f00; /* orange used for header/buttons */
+    --brand-color: var(--bar-color); /* kept for backward compatibility */
+    --page-bg: #ffffff; /* overall page background */
+    --bg: var(--page-bg);
+    --text: #0f172a;
+    --muted: #6b7280;
+    /* Frutiger / Aero-inspired helpers */
+    --bottom-glow: radial-gradient(farthest-corner at bottom center, rgba(255,255,255,0.35), transparent);
+    --stripes: repeating-linear-gradient(to bottom, #eee 0px, #eee 2px, #fff 2px, #fff 4px);
+}
+
+html, body { height: 100%; }
+
+body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #0f172a; /* Dark mode 2026 aesthetic */
-    color: #f8fafc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    text-align: center;
+    background-color: var(--page-bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* plain page background uses --page-bg variable */
 }
 
-h1 {
-    color: #38bdf8; /* Light blue accent */
-    letter-spacing: 4px;
+/* Header / Nav - Windows-like title bar */
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* increased header height (user requested) */
+    height: 96px;
+    z-index: 1000;
+    overflow: visible;
+    background: var(--bottom-glow), var(--bar-color);
+    border-bottom: 1px solid rgba(0,0,0,0.18);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.20), inset 0 -2px 0 rgba(0,0,0,0.06);
+.nav { /* keep nav rules grouped below */ }
+.nav {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:10px 18px;
+    max-width:1200px;
+    margin:0 auto;
+    height:88px;
+}
+.nav-left { display:flex; align-items:center; gap:12px; }
+.logo { height:56px; width:auto; display:block; }
+.nav-links { list-style:none; display:flex; gap:8px; align-items:center; font-size:13px; }
+.nav-links a:not(.frutiger-aero-button) {
+    color: rgba(255,255,255,0.96);
+    text-decoration: none;
+    font-weight:600;
+    padding:8px 14px;
+    border-radius:6px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.06));
+    box-shadow: 0 4px 0 rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.18);
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    display:inline-block;
 }
 
+/* Hover / focus / active states to clearly highlight the menu items */
+.nav-links a:hover, .nav-links a:focus {
+    background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(0,0,0,0.08));
+    transform: translateY(-2px);
+    outline: none;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.18);
+}
+.nav-links a:active {
+    background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.18));
+    transform: translateY(0);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.28);
+}
+.nav-links a[aria-current="page"], .nav-links a.active {
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+}
+.nav-links a:focus-visible {
+    outline: 2px solid rgba(255,255,255,0.24);
+    outline-offset: 2px;
+}
+
+/* header gloss + bevel (skeuomorphic) */
+.app-header::before {
+    /* Full-bar gloss: centered radial bulge + full-width linear sheen */
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0; /* cover full header */
+    /* centered radial bulge + full-width linear sheen */
+    background-image: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.98), rgba(255,255,255,0.16) 18%, rgba(255,255,255,0.06) 36%, rgba(255,255,255,0) 60%),
+                      linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0));
+    background-repeat: no-repeat, no-repeat;
+    background-size: 60% 100%, 100% 100%;
+    pointer-events: none;
+    opacity: 0.92;
+    mix-blend-mode: screen;
+}
+
+.app-header::after {
+    /* subtle bottom sheen line for bevel */
+    content: '';
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    height: 6px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+/* fallback for browsers without backdrop-filter */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+    .app-header {
+        /* fallback: solid but subtly tinted bar */
+        background: linear-gradient(180deg, rgba(249,115,22,0.98), rgba(249,115,22,0.9));
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+    }
+    .app-header::before { display:none; }
+    .app-header::after { display:none; }
+}
+
+/* window controls */
+.nav-right { display:flex; align-items:center; gap:8px; }
+.window-controls { display:flex; gap:6px; align-items:center; }
+.win-btn { background: transparent; border: none; color: rgba(255,255,255,0.9); width:32px; height:28px; display:inline-flex; align-items:center; justify-content:center; border-radius:4px; cursor:pointer; font-size:13px; }
+.win-btn:hover { background: rgba(0,0,0,0.14); }
+.win-btn:active { background: rgba(0,0,0,0.2); }
+.win-close:hover { background: rgba(255,0,0,0.92); color: #fff; }
+
+/* ensure nav layout keeps controls at right */
+.nav { align-items:center; height:100%; padding:0 18px; }
+
+/* make room for fixed header so main content isn't hidden */
+.main { display:flex; align-items:center; justify-content:center; padding:32px; padding-top:128px; }
+
+/* Main content */
+.main { display:flex; align-items:center; justify-content:center; padding:32px; }
+.main-image { max-width:90%; height:auto; border-radius:8px; }
+
+/* Buttons (use brand color) */
 button {
-    background-color: #38bdf8;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    color: #0f172a;
-    font-weight: bold;
+    /* Frutiger / Aero-inspired button */
+    --hue: 28;
+    --button-background: oklch(75% 0.06 var(--hue) / 0.95);
+    --bg-dark: oklch(45% 0.06 var(--hue) / 0.88);
+    --button-foreground: oklch(12% 0.06 var(--hue));
+
+    background-color: var(--button-background);
+    background-image: var(--bottom-glow), linear-gradient(to bottom, var(--bg-dark), var(--button-background));
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+    padding: 10px 16px;
+    border-radius: 9999px;
+    color: var(--button-foreground);
+    font-weight:700;
     cursor: pointer;
-    transition: transform 0.2s;
+    box-shadow: 0 8px 10px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.16);
+    transition: transform 140ms ease, box-shadow 140ms ease;
+}
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 22px rgba(0,0,0,0.24);
+}
+button:active {
+    transform: translateY(0);
+    box-shadow: inset 0 4px 8px rgba(0,0,0,0.22);
 }
 
-button:hover {
-    transform: scale(1.05);
+/* full-button gloss overlay */
+button::after {
+    content: '';
+    position: absolute;
+    top: 6%;
+    left: 0.6em;
+    width: calc(100% - 1.2em);
+    height: 40%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.85), rgba(255,255,255,0.08));
+    border-radius: 9999px;
+    transition: background 300ms ease;
+    pointer-events: none;
 }
+
+/* Authentic Frutiger Aero Button CSS */
+.frutiger-aero-button {
+    --hue: 140;
+    --sat: 0.2;
+    --glow-intensity: 0.7;
+    --fg: oklch(15% calc(var(--sat) * 0.5) var(--hue));
+    --bg: oklch(75% var(--sat) var(--hue) / 0.8);
+    --bg-dark: oklch(45% var(--sat) var(--hue) / 0.75);
+    --bottom-glow: radial-gradient(
+        farthest-corner at bottom center,
+        rgba(255, 255, 255, var(--glow-intensity)),
+        transparent
+    );
+    background-color: var(--bg);
+    background: 
+        var(--bottom-glow),
+        linear-gradient(to bottom, var(--bg-dark), var(--bg));
+    border: 1px solid var(--bg);
+    border-radius: 9999px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
+    color: var(--fg);
+    font-family: 'NeutronD', "Lucida Grande", "Lucida Sans Unicode", "Segoe UI", system-ui, sans-serif;
+    font-weight: 700;
+    /* default to medium size for the two nav buttons */
+    padding: 0.9em 2.25em;
+    font-size: 1rem;
+    text-shadow: 0 2px 0.5em rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    position: relative;
+    transition: all 300ms ease;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.frutiger-aero-button::after {
+    content: "";
+    position: absolute;
+    top: 4%;
+    left: 0.75em;
+    width: calc(100% - 1.5em);
+    height: 40%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0.1)
+    );
+    border-radius: inherit;
+    transition: background 400ms ease;
+    pointer-events: none;
+}
+.frutiger-aero-button:hover,
+.frutiger-aero-button:focus {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+    transform: translateY(-1px);
+}
+.frutiger-aero-button:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    transform: translateY(1px);
+}
+.frutiger-aero-button.small {
+    padding: 0.5em 1.5em;
+    font-size: 0.875rem;
+}
+.frutiger-aero-button.medium {
+    padding: 0.75em 2em;
+    font-size: 1rem;
+}
+.frutiger-aero-button.large {
+    padding: 1em 3em;
+    font-size: 1.125rem;
+}
+
+/* Utility */
+a { color: inherit; }
+
