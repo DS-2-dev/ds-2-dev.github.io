@@ -148,6 +148,15 @@ body {
 .main { display:flex; align-items:center; justify-content:center; padding:32px; }
 .main-image { max-width:90%; height:auto; border-radius:8px; }
 
+/* Ensure homepage message is visible and centered */
+.home-message {
+    color: var(--text);
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
 /* Buttons (use brand color) */
 button {
     /* Frutiger / Aero-inspired button */
