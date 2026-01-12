@@ -15,7 +15,7 @@
 }
 
 :root {
-    --bar-color: #ff6f00; /* orange used for header/buttons */
+    --bar-color: #F97316; /* orange used for header/buttons (restored) */
     --brand-color: var(--bar-color); /* kept for backward compatibility */
     --page-bg: #ffffff; /* overall page background */
     --bg: var(--page-bg);
@@ -48,22 +48,38 @@ body {
     height: 96px;
     z-index: 1000;
     overflow: visible;
-    background: var(--bottom-glow), var(--bar-color);
+    background: linear-gradient(180deg, #ff9c40 0%, var(--bar-color) 50%, #e65a00 100%);
     border-bottom: 1px solid rgba(0,0,0,0.18);
     box-shadow: 0 8px 22px rgba(0,0,0,0.20), inset 0 -2px 0 rgba(0,0,0,0.06);
-.nav { /* keep nav rules grouped below */ }
+}
 .nav {
     display:flex;
     align-items:center;
-    justify-content:space-between;
+    justify-content:flex-start; /* align left group together */
     gap:16px;
-    padding:10px 18px;
+    padding:10px 36px; /* push group inward slightly from left edge */
     max-width:1200px;
-    margin:0 auto;
+    margin:0; /* left-align the nav container so its contents sit toward the left */
     height:88px;
 }
 .nav-left { display:flex; align-items:center; gap:12px; }
-.logo { height:56px; width:auto; display:block; }
+.logo-link { display:inline-block; line-height:0; }
+.logo { height:80px; width:auto; display:block; transform: translateY(-4px); transition: transform 200ms cubic-bezier(.2,.9,.2,1); will-change: transform; }
+.logo-link:hover .logo,
+.logo-link:focus-visible .logo {
+    /* lift a bit and start wobble */
+    transform: translateY(-8px);
+    animation: wobble 1000ms ease-in-out infinite;
+}
+
+@keyframes wobble {
+  0%   { transform: translateY(-8px) rotate(-6deg); }
+  20%  { transform: translateY(-7px) rotate(6deg); }
+  40%  { transform: translateY(-8px) rotate(-3deg); }
+  60%  { transform: translateY(-7px) rotate(4deg); }
+  80%  { transform: translateY(-8px) rotate(-1deg); }
+ 100%  { transform: translateY(-8px) rotate(0deg); }
+}
 .nav-links { list-style:none; display:flex; gap:8px; align-items:center; font-size:13px; }
 .nav-links a:not(.frutiger-aero-button) {
     color: rgba(255,255,255,0.96);
@@ -99,37 +115,9 @@ body {
 }
 
 /* header gloss + bevel (skeuomorphic) */
-.app-header::before {
-    /* Full-bar gloss: centered radial bulge + full-width linear sheen */
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0; /* cover full header */
-    /* centered radial bulge + full-width linear sheen */
-    background-image: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.98), rgba(255,255,255,0.16) 18%, rgba(255,255,255,0.06) 36%, rgba(255,255,255,0) 60%),
-                      linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0));
-    background-repeat: no-repeat, no-repeat;
-    background-size: 60% 100%, 100% 100%;
-    pointer-events: none;
-    opacity: 0.92;
-    mix-blend-mode: screen;
-}
+.app-header::before { display: none !important; }
 
-.app-header::after {
-    /* subtle bottom sheen line for bevel */
-    content: '';
-    position: absolute;
-    left: 6px;
-    right: 6px;
-    bottom: 6px;
-    height: 6px;
-    border-radius: 4px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
-    pointer-events: none;
-    opacity: 0.9;
-}
+.app-header::after { display: none !important; }
 
 /* fallback for browsers without backdrop-filter */
 @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
@@ -143,7 +131,7 @@ body {
 }
 
 /* window controls */
-.nav-right { display:flex; align-items:center; gap:8px; }
+.nav-right { display:flex; align-items:center; gap:8px; margin-left: auto; }
 .window-controls { display:flex; gap:6px; align-items:center; }
 .win-btn { background: transparent; border: none; color: rgba(255,255,255,0.9); width:32px; height:28px; display:inline-flex; align-items:center; justify-content:center; border-radius:4px; cursor:pointer; font-size:13px; }
 .win-btn:hover { background: rgba(0,0,0,0.14); }
