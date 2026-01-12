@@ -29,7 +29,7 @@
 html, body { height: 100%; }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'NeutronD', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--page-bg);
     color: var(--text);
     min-height: 100vh;
@@ -144,8 +144,7 @@ body {
 /* make room for fixed header so main content isn't hidden */
 .main { display:flex; align-items:center; justify-content:center; padding:32px; padding-top:128px; }
 
-/* Main content */
-.main { display:flex; align-items:center; justify-content:center; padding:32px; }
+.main { display:flex; align-items:center; justify-content:center; padding:32px; padding-top:128px; }
 .main-image { max-width:90%; height:auto; border-radius:8px; }
 
 /* Ensure homepage message is visible and centered */
