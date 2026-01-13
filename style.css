@@ -62,7 +62,37 @@ body {
     margin:0; /* left-align the nav container so its contents sit toward the left */
     height:88px;
 }
-.nav-left { display:flex; align-items:center; gap:12px; }
+.nav-left { display:flex; align-items:center; gap:12px; width:100%; }
+.brand-group { display:flex; align-items:center; gap:1px; }
+.brand-name {
+    font-family: 'NeutronD', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #000; /* default black */
+    font-weight: 700;
+    font-size: 2rem; /* user prefers larger size */
+    text-decoration: none;
+    transition: color 420ms ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    transform: translateY(6px); /* vertically center with logo */
+    margin-left: -4px; /* scooch the name slightly left toward the logo */
+}
+/* When hovering or focusing the group (logo or name), make the text white and shake the logo */
+.brand-group:hover .brand-name,
+.brand-group:focus-within .brand-name {
+    color: #fff;
+    transition: color 140ms ease-out;
+}
+
+/* Homepage: brand text should be white by default */
+.home .brand-name {
+    color: #ffffff;
+}
+.brand-group:hover .logo,
+.brand-group:focus-within .logo {
+    transform: translateY(-7px);
+    animation: wobble 1000ms ease-in-out infinite;
+}
 .logo-link { display:inline-block; line-height:0; }
 .logo { height:80px; width:auto; display:block; transform: translateY(-4px); transition: transform 200ms cubic-bezier(.2,.9,.2,1); will-change: transform; }
 .logo-link:hover .logo,
@@ -80,7 +110,7 @@ body {
   80%  { transform: translateY(-8px) rotate(-1deg); }
  100%  { transform: translateY(-8px) rotate(0deg); }
 }
-.nav-links { list-style:none; display:flex; gap:8px; align-items:center; font-size:13px; }
+.nav-links { list-style:none; display:flex; gap:8px; align-items:center; font-size:13px; margin-left: auto; }
 .nav-links a:not(.frutiger-aero-button) {
     color: rgba(255,255,255,0.96);
     text-decoration: none;
@@ -139,7 +169,7 @@ body {
 .win-close:hover { background: rgba(255,0,0,0.92); color: #fff; }
 
 /* ensure nav layout keeps controls at right */
-.nav { align-items:center; height:100%; padding:0 18px; }
+.nav { align-items:center; height:100%; width:100%; max-width: none; padding:0 48px; }
 
 /* make room for fixed header so main content isn't hidden */
 .main { display:flex; align-items:center; justify-content:center; padding:32px; padding-top:128px; }
@@ -229,7 +259,7 @@ button::after {
     text-shadow: 0 2px 0.5em rgba(0, 0, 0, 0.2);
     cursor: pointer;
     position: relative;
-    transition: all 300ms ease;
+    transition: background 300ms ease, box-shadow 300ms ease, transform 300ms ease, color 420ms ease-in-out;
     user-select: none;
     -webkit-user-select: none;
 }
@@ -250,9 +280,12 @@ button::after {
     pointer-events: none;
 }
 .frutiger-aero-button:hover,
-.frutiger-aero-button:focus {
+.frutiger-aero-button:focus,
+.frutiger-aero-button:focus-visible {
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
     transform: translateY(-1px);
+    color: #ffffff;
+    transition: background 300ms ease, box-shadow 300ms ease, transform 300ms ease, color 140ms ease-out;
 }
 .frutiger-aero-button:active {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
@@ -273,4 +306,131 @@ button::after {
 
 /* Utility */
 a { color: inherit; }
+
+/* Products page sub-header (appears only when body has .with-subheader) */
+.sub-header {
+    position: fixed;
+    top: 96px; /* sits directly under the main header */
+    left: 0;
+    right: 0;
+    height: 48px; /* half the main header (96px) */
+    z-index: 950;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.14);
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+    background: linear-gradient(180deg, #d9dbe0 0%, #c3c6cb 18%, #9fa3a9 48%, #c3c6cb 78%, #d9dbe0 100%);
+    overflow: hidden;
+}
+.sub-header::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 55%;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.12) 10%, rgba(255,255,255,0.04) 22%, transparent 40%);
+    mix-blend-mode: overlay;
+}
+.sub-bar-inner { max-width:1200px; width:100%; padding:0 48px; display:flex; align-items:center; justify-content:flex-start; }
+.sub-title { color: #0f172a; font-family: 'NeutronD', sans-serif; font-weight:700; font-size:1rem; text-shadow: 0 1px 0 rgba(255,255,255,0.45); }
+.sub-actions { display:flex; align-items:center; gap:12px; }
+
+/* Ensure sub-header buttons share identical sizing and vertical centering */
+.sub-bar-inner .frutiger-aero-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5em 1.5em; /* match .frutiger-aero-button.small */
+    line-height: 1;
+}
+
+.sub-bar-inner .frutiger-aero-button.small {
+    padding: 0.5em 1.5em;
+}
+
+/* Active sub-header button: show white text to indicate current page */
+.sub-bar-inner .frutiger-aero-button[aria-current="page"],
+.sub-bar-inner .frutiger-aero-button.active {
+    color: #ffffff;
+}
+
+/* Increase page content offset only when sub-header is present */
+.with-subheader .main { padding-top: 176px; }
+
+/* Product card (reuses the chrome/silver look from sub-header) */
+.product-card {
+    width: min(720px, 92%);
+    padding: 36px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #eceff1 0%, #e0e3e6 20%, #cfcfd3 52%, #e0e3e6 82%, #eceff1 100%);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 260ms cubic-bezier(.2,.9,.2,1);
+    will-change: transform, box-shadow;
+}
+
+.product-card-link { display:inline-block; text-decoration:none; }
+.product-card { cursor: pointer; }
+.product-card-link:focus .product-card,
+.product-card-link:hover .product-card { transform: translateY(-12px); box-shadow: 0 20px 46px rgba(0,0,0,0.18); }
+.product-card::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 60%;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.12) 12%, rgba(255,255,255,0.04) 24%, transparent 45%);
+    mix-blend-mode: overlay;
+}
+.product-logo { max-width: 320px; height: auto; display: block; }
+
+.product-card:hover,
+.product-card:focus-within {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 46px rgba(0,0,0,0.18);
+}
+
+/* Two-column layout for products */
+.products-grid { max-width: 1200px; margin: 28px auto 0; display:flex; gap:28px; align-items:flex-start; padding: 0 18px; }
+.product-column { flex:1; display:flex; justify-content:center; }
+
+.product-info-card {
+    width: min(720px, 92%);
+    min-height: 320px;
+    padding: 36px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #f6f7f8 0%, #eef0f2 18%, #e6e8ea 100%);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.10);
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    justify-content:center;
+    align-items: center;
+}
+.product-info-card::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+}
+.info-title { font-family: 'NeutronD', sans-serif; font-size:1.25rem; font-weight:800; color: #0b1220; margin:0; }
+.info-text { color: #394050; margin:0 0 8px 0; }
+.info-actions { display:flex; gap:12px; }
+
+.info-center { font-family: 'NeutronD', sans-serif; font-size:1.125rem; color:#233; text-align:center; }
+
+@media (max-width: 860px) {
+    .products-grid { flex-direction: column; }
+    .product-column { justify-content:center; }
+    .product-card, .product-info-card { width: 100%; }
+}
 
