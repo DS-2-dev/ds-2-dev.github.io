@@ -190,6 +190,13 @@ body {
 .home-side { margin-left:auto; margin-right:64px; display:flex; align-items:flex-start; }
 .home .product-card { width: clamp(468px, 32.4vw, 684px); padding:28px; display:flex; flex-direction:column; align-items:center; text-align:center; transition: none; }
 
+/* Ensure homepage card visuals (padding, background, shadow) match the fence product card */
+.home .product-card {
+    border-radius: 12px;
+    background: linear-gradient(180deg, #eceff1 0%, #e0e3e6 20%, #cfcfd3 52%, #e0e3e6 82%, #eceff1 100%);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
 /* Disable hover lift/transform for homepage card while keeping a static shadow */
 .home .product-card:hover,
 .home .product-card:focus-within,
@@ -207,6 +214,11 @@ body {
     color: var(--muted);
     margin: 6px 0 0 0;
     text-align: center;
+}
+
+/* Left-align the homepage card paragraph for better readability */
+.home .product-card .card-sub {
+    text-align: left;
 }
 
 .product-card .card-sub p { margin: 0; }
@@ -544,15 +556,14 @@ a.product-card-link .product-card {
 }
 
 /* Ensure main content leaves room for a fixed bottom sub-bar */
-.main { padding-bottom: 96px; }
+.main { padding-bottom: calc(96px * 0.9); }
 
-/* Bottom sub-bar: same height as .sub-header but blue gradient base */
 .bottom-subbar {
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 48px;
+    height: calc(48px * 0.9); /* reduced by 10% */
     z-index: 9999; /* bring to front */
     display: flex;
     align-items: center;
@@ -574,12 +585,12 @@ a.product-card-link .product-card {
     background: linear-gradient(to top, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.06) 30%, transparent 60%);
     mix-blend-mode: overlay;
 }
-.bottom-subbar .sub-bar-inner { max-width:1200px; width:100%; padding:0 48px; display:flex; align-items:center; justify-content:center; }
+.bottom-subbar .sub-bar-inner { max-width:1200px; width:100%; padding:0 calc(48px * 0.9); display:flex; align-items:center; justify-content:center; }
 .bottom-subbar .sub-actions { margin-left:auto; display:flex; gap:12px; align-items:center; }
 .bottom-subbar .site-copy {
     font-family: 'NeutronD', sans-serif;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: calc(0.95rem * 0.9); /* scaled down 10% */
     color: #042a4f;
     text-align: center;
 }
