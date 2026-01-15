@@ -177,6 +177,90 @@ body {
 .main { display:flex; align-items:center; justify-content:center; padding:32px; padding-top:128px; }
 .main-image { max-width:90%; height:auto; border-radius:8px; }
 
+/* Homepage layout: message on the left, product-style card on the right */
+.home .main {
+    display:flex;
+    align-items:center; /* vertically center the card */
+    justify-content:flex-start;
+    gap:28px;
+    padding:32px;
+    padding-top:128px;
+}
+.home-left { flex:1; display:flex; align-items:center; }
+.home-side { margin-left:auto; margin-right:64px; display:flex; align-items:flex-start; }
+.home .product-card { width: clamp(468px, 32.4vw, 684px); padding:28px; display:flex; flex-direction:column; align-items:center; text-align:center; transition: none; }
+
+/* Disable hover lift/transform for homepage card while keeping a static shadow */
+.home .product-card:hover,
+.home .product-card:focus-within,
+.home .product-card-link:hover .product-card,
+.home .product-card-link:focus .product-card {
+    transform: none !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12) !important;
+}
+.home .product-logo { max-width:320px; }
+
+/* Subtext under the card title (Segoe UI) */
+.product-card .card-sub {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin: 6px 0 0 0;
+    text-align: center;
+}
+
+.product-card .card-sub p { margin: 0; }
+.product-card .card-sub ul { list-style: disc; padding-left: 1.1rem; margin: 14px auto; text-align: left; display: inline-block; }
+.product-card .card-sub ul li { margin: 6px 0; }
+
+/* Availability line under product card list */
+.product-card .availability {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin: 0; /* spacing handled by ul margin (14px bottom) */
+    text-align: center;
+}
+
+/* Actions area inside product cards (centered button) */
+.product-card .card-actions {
+    margin-top: 28px;
+    text-align: center;
+}
+
+/* Right-align container used on product detail pages */
+.detail-side { display:flex; justify-content:flex-end; align-items:flex-start; margin-left:auto; margin-right:64px; }
+
+/* Stacked card variant for detail pages */
+.product-card.stacked { display:flex; flex-direction:column; align-items:center; text-align:center; width: clamp(468px, 32.4vw, 684px); padding:28px; transition: none; }
+
+@media (max-width: 860px) {
+    .detail-side { margin-right:18px; justify-content:center; }
+    .product-card.stacked { width: 100%; }
+}
+
+/* Disable hover/transform and keep static shadow for stacked/detail cards */
+.product-card.stacked,
+.detail-side .product-card {
+    transition: none !important;
+    transform: none !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12) !important;
+    cursor: default !important;
+}
+.product-card.stacked:hover,
+.product-card.stacked:focus-within,
+.detail-side .product-card:hover,
+.detail-side .product-card:focus-within,
+.product-card-link:hover .product-card.stacked,
+.product-card-link:focus .product-card.stacked {
+    transform: none !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12) !important;
+}
+
+@media (max-width: 860px) {
+    .home-side { margin-right:18px; }
+}
+
 /* Ensure homepage message is visible and centered */
 .home-message {
     color: var(--text);
@@ -388,7 +472,7 @@ a { color: inherit; }
     right: 0;
     top: 0;
     height: 60%;
-    pointer-events: none;
+    pointer-events: pointer;
     background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.12) 12%, rgba(255,255,255,0.04) 24%, transparent 45%);
     mix-blend-mode: overlay;
 }
@@ -398,6 +482,31 @@ a { color: inherit; }
 .product-card:focus-within {
     transform: translateY(-12px);
     box-shadow: 0 20px 46px rgba(0,0,0,0.18);
+}
+
+/* Card title for standalone homepage card */
+.product-card .card-title {
+    font-family: 'NeutronD', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 800;
+    font-style: italic;
+    color: #0b1220;
+    margin: 0 0 12px 0;
+    text-align: center;
+}
+.product-card { cursor: default; }
+
+/* When a product card is clickable (wrapped in a link), show pointer */
+a.product-card-link,
+a.product-card-link .product-card {
+    cursor: pointer;
+}
+
+/* Make the trailing punctuation lighter when wrapped in .no-bold */
+.product-card .card-title .no-bold {
+    font-weight: 400;
+    display: inline-block;
+    font-family: inherit;
 }
 
 /* Two-column layout for products */
@@ -433,4 +542,72 @@ a { color: inherit; }
     .product-column { justify-content:center; }
     .product-card, .product-info-card { width: 100%; }
 }
+
+/* Ensure main content leaves room for a fixed bottom sub-bar */
+.main { padding-bottom: 96px; }
+
+/* Bottom sub-bar: same height as .sub-header but blue gradient base */
+.bottom-subbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 48px;
+    z-index: 9999; /* bring to front */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 -10px 28px rgba(0,0,0,0.14);
+    border-top: 1px solid rgba(0,0,0,0.12);
+    background: linear-gradient(180deg, #cfe8ff 0%, #9ecfff 50%, #6fb8ff 100%);
+    overflow: visible;
+    transform: translateZ(0);
+}
+.bottom-subbar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 55%;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.06) 30%, transparent 60%);
+    mix-blend-mode: overlay;
+}
+.bottom-subbar .sub-bar-inner { max-width:1200px; width:100%; padding:0 48px; display:flex; align-items:center; justify-content:center; }
+.bottom-subbar .sub-actions { margin-left:auto; display:flex; gap:12px; align-items:center; }
+.bottom-subbar .site-copy {
+    font-family: 'NeutronD', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #042a4f;
+    text-align: center;
+}
+
+.bottom-subbar .site-copy a {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: 800;
+}
+
+/* Make the bottom sub-bar link text fade to white on hover/focus (like the buttons) */
+.bottom-subbar .site-copy a {
+    transition: color 140ms ease-out;
+    cursor: pointer;
+}
+.bottom-subbar .site-copy a:hover,
+.bottom-subbar .site-copy a:focus,
+.bottom-subbar .site-copy a:focus-visible {
+    color: #ffffff;
+    text-decoration: none;
+    outline: none;
+}
+
+@media (max-width: 860px) {
+    .main { padding-bottom: 80px; }
+    .bottom-subbar .sub-bar-inner { padding:0 18px; }
+}
+
+/* Loading bar styles removed per user request */
+
 
