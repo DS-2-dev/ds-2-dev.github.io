@@ -243,6 +243,52 @@ body {
 /* Right-align container used on product detail pages */
 .detail-side { display:flex; justify-content:flex-end; align-items:flex-start; margin-left:auto; margin-right:64px; }
 
+/* Left column used on product detail pages (holds video/trailer) */
+.detail-left { display:flex; align-items:flex-start; justify-content:flex-start; margin-left:64px; margin-right:12px; flex: 0 0 55%; }
+.with-subheader .main { align-items: flex-start; }
+.detail-left, .detail-side { align-self: stretch; }
+.detail-side { display:flex; justify-content:flex-end; align-items:flex-start; margin-left:auto; margin-right:64px; flex: 0 0 45%; }
+.detail-left .product-trailer {
+    height: 100%;
+    width: auto;
+    max-width: none;
+    border-radius: 10px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    background: #000;
+    display: block;
+    object-fit: cover;
+    margin-top: 0;
+}
+
+@media (max-width: 860px) {
+    /* Show the video/embed area on small screens so trailers are visible */
+    .detail-left { display:flex; }
+}
+
+/* Vimeo embed styling: ensure iframe is visible and has a usable height */
+.vimeo-embed { width: 100%; max-width: 980px; margin: 0 auto; }
+.vimeo-embed iframe { display: block; width: 100%; height: 480px; border: 0; z-index: 1; }
+
+@media (max-width: 860px) {
+    .detail-left { flex: 0 0 100%; margin-left: 0; margin-right: 0; }
+    .vimeo-embed iframe { height: 320px; }
+}
+
+/* Fallback/video wrapper adjustments to align with product card */
+.video-fallback { margin-top: 36px; border-radius: 10px; overflow: hidden; }
+@media (max-width: 860px) {
+    .video-fallback { margin-top: 24px; border-radius: 8px; }
+}
+
+/* Ensure iframe/video fill the rounded container and don't show square corners */
+.video-fallback iframe,
+.video-fallback video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 0; /* container handles rounding */
+}
+
 /* Stacked card variant for detail pages */
 .product-card.stacked { display:flex; flex-direction:column; align-items:center; text-align:center; width: clamp(468px, 32.4vw, 684px); padding:28px; transition: none; }
 
