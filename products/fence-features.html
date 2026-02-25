@@ -7,6 +7,13 @@
   <link rel="icon" href="../logomini.png" type="image/png">
   <link rel="stylesheet" href="https://khang-nd.github.io/7.css/dist/7.css">
   <link rel="stylesheet" href="../style.css?v=2">
+  <style>
+    /* Page-specific: widen stacked product card so text doesn't wrap too narrowly on small screens */
+    .product-card.stacked { width: min(960px, 90vw); }
+    @media (max-width: 560px) {
+      .product-card.stacked { width: calc(100vw - 32px); padding: 20px; }
+    }
+  </style>
 </head>
 <body class="with-subheader loading-active">
   <header class="app-header">
@@ -52,6 +59,9 @@
           .pricing-table { width:100%; border-collapse:collapse; background:transparent; color:inherit; font-family: inherit; }
           .pricing-table th { text-align:left; padding:14px 12px; background: linear-gradient(180deg,#eef3f6,#e0e3e6); border-bottom:2px solid rgba(0,0,0,0.06); font-weight:800; font-family: 'NeutronD', sans-serif; color: #0b1220; }
           .pricing-table td { padding:12px; vertical-align:top; border-bottom:1px solid rgba(0,0,0,0.04); color:inherit; }
+          /* Left-align edition names, features and pricing for readability */
+          .pricing-table td, .pricing-table td .feature-list, .pricing-table .price { text-align: left; }
+          .pricing-table td:first-child { width: 22%; white-space:nowrap; }
           .pricing-table .feature-list { margin:0; padding-left:1.05rem; }
           .pricing-table .price { font-weight:700; color:#0b1220; white-space:nowrap; }
           /* Ensure bullet lists are left-aligned even inside centered product cards */
@@ -64,6 +74,12 @@
           }
           .pricing-note { margin-top:12px; color:var(--muted); font-size:0.95rem; }
           @media (max-width:860px){ .pricing-table th, .pricing-table td { padding:10px 8px; } }
+          /* Widen the stacked product card on this page so text wraps better on narrow devices */
+          .product-card.stacked { width: min(820px, 86vw); padding: 28px; }
+          @media (max-width:560px) {
+            .product-card.stacked { width: min(720px, 94vw); padding: 20px; }
+            .pricing-table td { font-size: 0.98rem; }
+          }
         </style>
 
         <div class="pricing-table-wrapper">

@@ -49,7 +49,8 @@
 
       <style>
         /* Countdown overlay for gated video availability */
-        .countdown-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background: rgba(4,10,20,0.45); color:#fff; text-align:center; padding:12px; border-radius:8px; z-index:2000; pointer-events:auto; }
+        /* Ensure overlay scrolls with the page and does not sit above fixed headers */
+        .countdown-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background: rgba(4,10,20,0.45); color:#fff; text-align:center; padding:12px; border-radius:8px; z-index:50; pointer-events:auto; }
         .countdown-inner { background: rgba(0,0,0,0.65); padding:18px 22px; border-radius:10px; min-width:260px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
         .countdown-inner .available-text { font-family: 'NeutronD', sans-serif; font-weight:800; color:#fff; margin-bottom:8px; font-size:1rem; }
         .countdown-sub { font-size:0.9rem; color: #dbeafe; margin-bottom:6px; }
