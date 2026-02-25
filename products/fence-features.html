@@ -39,10 +39,90 @@
   </div>
 
   <main class="main">
-    <div class="detail-left"></div>
-    <div class="detail-side">
+    <div class="detail-left" style="display:none;"></div>
+    <div class="detail-side" style="margin:0 auto; flex:0 0 auto;">
       <div class="product-card stacked" role="region" aria-label="Fence features">
-        <h2 class="card-title">More information comming soon!</h2>
+        <h2 class="card-title">Fence! Editions</h2>
+        <style>
+          /* Match fence product card typography and colors */
+          .product-card { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--muted); }
+          .product-card .card-title { font-family: 'NeutronD', sans-serif; color: #0b1220; }
+
+          .pricing-table-wrapper { width:100%; overflow:auto; margin-top:12px; }
+          .pricing-table { width:100%; border-collapse:collapse; background:transparent; color:inherit; font-family: inherit; }
+          .pricing-table th { text-align:left; padding:14px 12px; background: linear-gradient(180deg,#eef3f6,#e0e3e6); border-bottom:2px solid rgba(0,0,0,0.06); font-weight:800; font-family: 'NeutronD', sans-serif; color: #0b1220; }
+          .pricing-table td { padding:12px; vertical-align:top; border-bottom:1px solid rgba(0,0,0,0.04); color:inherit; }
+          .pricing-table .feature-list { margin:0; padding-left:1.05rem; }
+          .pricing-table .price { font-weight:700; color:#0b1220; white-space:nowrap; }
+          /* Ensure bullet lists are left-aligned even inside centered product cards */
+          .product-card .card-sub ul,
+          .pricing-table .feature-list {
+            text-align: left;
+            display: block;
+            margin: 8px 0;
+            padding-left: 1.05rem;
+          }
+          .pricing-note { margin-top:12px; color:var(--muted); font-size:0.95rem; }
+          @media (max-width:860px){ .pricing-table th, .pricing-table td { padding:10px 8px; } }
+        </style>
+
+        <div class="pricing-table-wrapper">
+          <table class="pricing-table" role="table" aria-label="Fence editions and pricing">
+            <thead>
+              <tr>
+                <th scope="col">Edition</th>
+                <th scope="col">Key Features</th>
+                <th scope="col">Pricing</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Fence! Basic</strong></td>
+                <td>
+                  <ul class="feature-list">
+                    <li>Import any file type</li>
+                    <li>Make tournaments from scratch</li>
+                    <li>No fencer limit</li>
+                    <li>No mobile scoring</li>
+                    <li>Push to cloud for data storage</li>
+                  </ul>
+                </td>
+                <td class="price">Upfront: $125<br>Yearly: $50</td>
+              </tr>
+
+              <tr>
+                <td><strong>Fence! Lite</strong></td>
+                <td>
+                  <ul class="feature-list">
+                    <li>Import any file type</li>
+                    <li>Make tournaments from scratch</li>
+                    <li>No fencer limit</li>
+                    <li>Unlimited mobile scoring</li>
+                    <li>Push to cloud for data storage</li>
+                    <li>Sync event to Fencing Time Live™</li>
+                  </ul>
+                </td>
+                <td class="price">Upfront: $250<br>Yearly: $150</td>
+              </tr>
+
+              <tr>
+                <td><strong>Fence! Disruption</strong></td>
+                <td>
+                  <ul class="feature-list">
+                    <li>Import any file type</li>
+                    <li>Make tournaments from scratch</li>
+                    <li>No fencer limit</li>
+                    <li>Unlimited mobile scoring</li>
+                    <li>Push to cloud for data storage</li>
+                    <li>Sync event to Fencing Time Live™</li>
+                    <li>AI Referee</li>
+                  </ul>
+                </td>
+                <td class="price">Upfront: $500<br>Yearly: $250</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </main>
