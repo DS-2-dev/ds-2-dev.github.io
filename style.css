@@ -26,6 +26,8 @@
     --stripes: repeating-linear-gradient(to bottom, #eee 0px, #eee 2px, #fff 2px, #fff 4px);
 }
 
+/* Use native browser/OS scrollbars (no custom overlay) */
+
 html, body { height: 100%; }
 
 body {

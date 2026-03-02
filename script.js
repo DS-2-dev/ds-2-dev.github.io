@@ -28,3 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+
+
+// (Overlay scrollbar removed) — no custom overlay script
+
