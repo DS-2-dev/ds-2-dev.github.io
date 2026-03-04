@@ -1,0 +1,1083 @@
+/* Reset and cross-browser defaults */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Local font import (user-provided) */
+@font-face {
+    font-family: 'NeutronD';
+    src: url('neutrond.ttf') format('truetype');
+    font-weight: 300 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --bar-color: #F97316; /* orange used for header/buttons (restored) */
+    --brand-color: var(--bar-color); /* kept for backward compatibility */
+    --page-bg: #ffffff; /* overall page background */
+    --bg: var(--page-bg);
+    --text: #0f172a;
+    --muted: #6b7280;
+    /* Frutiger / Aero-inspired helpers */
+    --bottom-glow: radial-gradient(farthest-corner at bottom center, rgba(255,255,255,0.35), transparent);
+    --stripes: repeating-linear-gradient(to bottom, #eee 0px, #eee 2px, #fff 2px, #fff 4px);
+}
+
+html, body { height: 100%; }
+
+body {
+    font-family: 'NeutronD', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--page-bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Header / Nav - Windows-like title bar */
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 96px;
+    z-index: 1000;
+    overflow: visible;
+    background: linear-gradient(180deg, #ff9c40 0%, var(--bar-color) 50%, #e65a00 100%);
+    border-bottom: 1px solid rgba(0,0,0,0.18);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.20), inset 0 -2px 0 rgba(0,0,0,0.06);
+
+    /* Final glossy-nav override: layered specular highlights for polished black finish */
+    .app-header {
+        background:
+            radial-gradient(1200px 140px at 12% 0%, rgba(255,255,255,0.06), rgba(255,255,255,0) 18%),
+            linear-gradient(180deg, #070707 0%, #000 62%, #020202 100%) !important;
+        border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+        box-shadow: 0 22px 64px rgba(0,0,0,0.86), inset 0 -4px 28px rgba(255,255,255,0.02) !important;
+        position: relative !important;
+        overflow: visible !important;
+    }
+
+    .app-header::before {
+        content: "";
+        position: absolute;
+        left: -12%;
+        right: -12%;
+        top: 6px;
+        height: 38%;
+        background: linear-gradient(180deg, rgba(255,255,255,0.60) 0%, rgba(255,255,255,0.20) 16%, rgba(255,255,255,0.06) 34%, rgba(255,255,255,0) 52%);
+        transform: skewY(-4deg);
+        opacity: 0.98;
+        filter: blur(0.6px) contrast(1.04);
+        pointer-events: none;
+        mix-blend-mode: screen;
+        z-index: 2;
+    }
+
+    .app-header::after {
+        content: "";
+        position: absolute;
+        left: 6%;
+        right: 6%;
+        bottom: 8px;
+        height: 4px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04), rgba(255,255,255,0.12));
+        opacity: 0.92;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    /* Ensure nav and brand sit above the sheen */
+    .app-header .nav,
+    .app-header .nav-left,
+    .app-header .brand-group,
+    .app-header .brand-name {
+        position: relative;
+        z-index: 3;
+    }
+
+    /* Final polish: make the gloss visibly reflective and tone down the heavy outer shadow */
+    .app-header {
+        /* shorter, softer outer shadow */
+        box-shadow: 0 6px 18px rgba(0,0,0,0.45) !important;
+        border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+        /* slightly deeper base to let the highlight pop */
+        background: linear-gradient(180deg, #080809 0%, #000 64%, #030303 100%) !important;
+    }
+
+    /* Make the specular band much brighter and taller so it's clearly visible */
+    .app-header::before {
+        content: "" !important;
+        position: absolute !important;
+        left: -8% !important;
+        right: -8% !important;
+        top: 6px !important;
+        height: 42% !important;
+        background: linear-gradient(180deg, rgba(255,255,255,0.90) 0%, rgba(255,255,255,0.42) 16%, rgba(255,255,255,0.14) 34%, rgba(255,255,255,0.00) 52%) !important;
+        transform: skewY(-6deg) !important;
+        opacity: 0.98 !important;
+        filter: blur(0.8px) contrast(1.06) !important;
+        pointer-events: none !important;
+        mix-blend-mode: screen !important;
+        z-index: 4 !important;
+    }
+
+    /* Add a thin glossy rim near the bottom of the header for extra sheen */
+    .app-header::after {
+        content: "" !important;
+        position: absolute !important;
+        left: 4% !important;
+        right: 4% !important;
+        bottom: 8px !important;
+        height: 6px !important;
+        border-radius: 999px !important;
+        background: linear-gradient(90deg, rgba(255,255,255,0.22), rgba(255,255,255,0.04), rgba(255,255,255,0.18)) !important;
+        opacity: 0.96 !important;
+        pointer-events: none !important;
+        z-index: 3 !important;
+    }
+
+    /* Ensure nav and brand remain above the sheen */
+    .app-header .nav,
+    .app-header .nav-left,
+    .app-header .brand-group,
+    .app-header .brand-name { z-index: 5 !important; position: relative !important; }
+
+    /* Keep brand text white on non-home pages */
+    body:not(.home) .brand-name { color: #ffffff !important; }
+
+    /* === Skeuomorphic header polish (final high-specificity override) === */
+    /* Replaces solid black with layered surfaces, rim light, bevel and gloss */
+    html body .app-header {
+        height: 56px !important;
+        border-radius: 10px !important;
+        border: 1px solid rgba(0,0,0,0.75) !important;
+        background:
+            /* subtle curved highlight */
+            radial-gradient(800px 120px at 10% 0%, rgba(255,255,255,0.06), rgba(255,255,255,0) 22%),
+            /* top satin */
+            linear-gradient(180deg, #1b1b1b 0%, #0b0b0b 45%, #000000 55%, #050505 100%) !important;
+        box-shadow:
+            inset 0 10px 18px rgba(255,255,255,0.02), /* soft inner rim */
+            inset 0 -18px 36px rgba(0,0,0,0.7),      /* deep inner shadow */
+            0 6px 20px rgba(0,0,0,0.35) !important;   /* outer drop shadow */
+        position: relative !important;
+        overflow: visible !important;
+    }
+
+    /* strong specular band */
+    html body .app-header::before {
+        content: "" !important;
+        position: absolute !important;
+        left: -6% !important;
+        right: -6% !important;
+        top: 6px !important;
+        height: 40% !important;
+        background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.30) 22%, rgba(255,255,255,0.06) 38%, rgba(255,255,255,0) 54%) !important;
+        transform: skewY(-6deg) !important;
+        opacity: 0.98 !important;
+        pointer-events: none !important;
+        mix-blend-mode: screen !important;
+        z-index: 2 !important;
+        filter: blur(0.6px) contrast(1.02) !important;
+    }
+
+    /* thin bottom rim glow */
+    html body .app-header::after {
+        content: "" !important;
+        position: absolute !important;
+        left: 8% !important;
+        right: 8% !important;
+        bottom: 6px !important;
+        height: 6px !important;
+        border-radius: 999px !important;
+        background: linear-gradient(90deg, rgba(255,255,255,0.18), rgba(255,255,255,0.04), rgba(255,255,255,0.12)) !important;
+        opacity: 0.92 !important;
+        pointer-events: none !important;
+        z-index: 2 !important;
+    }
+
+    /* ensure nav content sits above gloss */
+    html body .app-header .nav,
+    html body .app-header .nav-left,
+    html body .app-header .brand-group,
+    html body .app-header .brand-name {
+        position: relative !important;
+        z-index: 3 !important;
+    }
+
+    /* size adjustments for the sleeker bar */
+    html body .app-header .nav { height: 56px !important; align-items: center !important; padding: 0 28px !important; }
+    html body .app-header .logo { height: 36px !important; }
+    html body .brand-name { transform: translateY(0) !important; font-size: 1.05rem !important; color: #fff !important; }
+
+    /* remove any leftover sheen helper elements */
+    html body .app-header .gloss-sheen { display: none !important; }
+
+    /* Final tweak: stronger specular contrast and subtle curvature highlights */
+    html body .app-header {
+        background:
+            /* faint left/right rim highlights */
+            linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 6%, rgba(255,255,255,0) 94%, rgba(255,255,255,0.02) 100%),
+            /* soft top satin */
+            linear-gradient(180deg, #141414 0%, #090909 42%, #000 58%, #060606 100%) !important;
+        box-shadow:
+            inset 0 10px 18px rgba(255,255,255,0.03), /* inner rim */
+            inset 0 -22px 42px rgba(0,0,0,0.82),     /* deep inner shadow */
+            0 6px 18px rgba(0,0,0,0.28) !important;   /* softened outer shadow */
+    }
+
+    /* Remove the main header outer shadow as requested */
+    .app-header {
+        box-shadow: none !important;
+    }
+
+    html body .app-header::before {
+        background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.44) 18%, rgba(255,255,255,0.16) 36%, rgba(255,255,255,0) 54%) !important;
+        opacity: 1.0 !important;
+        height: 46% !important;
+        transform: skewY(-5deg) !important;
+    }
+
+    /* Sub-header buttons: more rectangular but still rounded */
+    .sub-bar-inner .frutiger-aero-button {
+        border-radius: 10px !important;
+    }
+
+
+}
+.nav {
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:16px;
+    padding:10px 36px;
+    max-width:1200px;
+    margin:0;
+    height:88px;
+}
+.nav-left { display:flex; align-items:center; gap:12px; width:100%; }
+.brand-group { display:flex; align-items:center; gap:1px; }
+.brand-name {
+    font-family: 'NeutronD', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #000;
+    font-weight: 700;
+    font-size: 2rem;
+    text-decoration: none;
+    transition: color 420ms ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    transform: translateY(6px);
+    margin-left: -4px;
+}
+.brand-group:hover .brand-name,
+.brand-group:focus-within .brand-name {
+    color: #fff;
+    transition: color 140ms ease-out;
+}
+
+.home .brand-name { color: #ffffff; }
+.brand-group:hover .logo,
+.brand-group:focus-within .logo {
+    transform: translateY(-7px);
+    animation: wobble 1000ms ease-in-out infinite;
+}
+.logo-link { display:inline-block; line-height:0; }
+.logo { height:80px; width:auto; display:block; transform: translateY(-4px); transition: transform 200ms cubic-bezier(.2,.9,.2,1); will-change: transform; }
+.logo-link:hover .logo,
+.logo-link:focus-visible .logo {
+    transform: translateY(-8px);
+    animation: wobble 1000ms ease-in-out infinite;
+}
+
+@keyframes wobble {
+  0%   { transform: translateY(-8px) rotate(-6deg); }
+  20%  { transform: translateY(-7px) rotate(6deg); }
+  40%  { transform: translateY(-8px) rotate(-3deg); }
+  60%  { transform: translateY(-7px) rotate(4deg); }
+  80%  { transform: translateY(-8px) rotate(-1deg); }
+ 100%  { transform: translateY(-8px) rotate(0deg); }
+}
+.nav-links { list-style:none; display:flex; gap:8px; align-items:center; font-size:13px; margin-left: auto; }
+.nav-links a:not(.frutiger-aero-button) {
+    color: rgba(255,255,255,0.96);
+    text-decoration: none;
+    font-weight:600;
+    padding:8px 14px;
+    border-radius:6px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.06));
+    box-shadow: 0 4px 0 rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.18);
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    display:inline-block;
+}
+
+.nav-links a:hover, .nav-links a:focus {
+    background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(0,0,0,0.08));
+    transform: translateY(-2px);
+    outline: none;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.18);
+}
+.nav-links a:active {
+    background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.18));
+    transform: translateY(0);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.28);
+}
+.nav-links a[aria-current="page"], .nav-links a.active {
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+}
+.nav-links a:focus-visible { outline: 2px solid rgba(255,255,255,0.24); outline-offset: 2px; }
+
+/* header gloss + bevel (skeuomorphic) */
+.app-header::before { display: none !important; }
+.app-header::after { display: none !important; }
+
+/* fallback for browsers without backdrop-filter */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+    .app-header {
+        background: linear-gradient(180deg, rgba(249,115,22,0.98), rgba(249,115,22,0.9));
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+    }
+    .app-header::before { display:none; }
+    .app-header::after { display:none; }
+}
+
+/* Strong override: enforce sleek glossy black header (last rule wins) */
+.app-header {
+    background: linear-gradient(180deg, #0b0b0c 0%, #000 55%, #050505 100%) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
+}
+.app-header::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 34%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.02));
+    opacity: 0.95;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
+.app-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 12%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+    pointer-events: none;
+}
+
+/* Extra gloss: brighter band + diagonal sheen for a freshly waxed look */
+.app-header::before {
+    background: linear-gradient(180deg, rgba(255,255,255,0.26), rgba(255,255,255,0.06) 32%, rgba(255,255,255,0.02) 42%);
+    filter: saturate(1.05) contrast(1.02);
+}
+.app-header::after {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+}
+.app-header .gloss-sheen {
+    position: absolute;
+    left: -20%;
+    top: 6%;
+    width: 140%;
+    height: 18%;
+    background: linear-gradient(90deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.0) 60%);
+    transform: rotate(-6deg) skewX(-10deg);
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+/* Make brand text white on any non-home page */
+body:not(.home) .brand-name {
+    color: #ffffff !important;
+}
+
+/* Reset and cross-browser defaults */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Local font import (user-provided) */
+@font-face {
+    font-family: 'NeutronD';
+    src: url('neutrond.ttf') format('truetype');
+    font-weight: 300 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --bar-color: #F97316; /* orange used for header/buttons (restored) */
+    --brand-color: var(--bar-color); /* kept for backward compatibility */
+    --page-bg: #ffffff; /* overall page background */
+    --bg: var(--page-bg);
+    --text: #0f172a;
+    --muted: #6b7280;
+    /* Frutiger / Aero-inspired helpers */
+    --bottom-glow: radial-gradient(farthest-corner at bottom center, rgba(255,255,255,0.35), transparent);
+    --stripes: repeating-linear-gradient(to bottom, #eee 0px, #eee 2px, #fff 2px, #fff 4px);
+}
+
+/* Use native browser/OS scrollbars (no custom overlay) */
+
+html, body { height: 100%; }
+
+body {
+    font-family: 'NeutronD', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--page-bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* plain page background uses --page-bg variable */
+}
+
+/* Header / Nav - Windows-like title bar */
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* increased header height (user requested) */
+    height: 96px;
+    z-index: 1000;
+    overflow: visible;
+    background: linear-gradient(180deg, #ff9c40 0%, var(--bar-color) 50%, #e65a00 100%);
+    border-bottom: 1px solid rgba(0,0,0,0.18);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.20), inset 0 -2px 0 rgba(0,0,0,0.06);
+}
+.nav {
+    display:flex;
+    align-items:center;
+    justify-content:flex-start; /* align left group together */
+    gap:16px;
+    padding:10px 36px; /* push group inward slightly from left edge */
+    max-width:1200px;
+    margin:0; /* left-align the nav container so its contents sit toward the left */
+    height:88px;
+}
+.nav-left { display:flex; align-items:center; gap:12px; width:100%; }
+.brand-group { display:flex; align-items:center; gap:1px; }
+.brand-name {
+    font-family: 'NeutronD', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #000; /* default black */
+    font-weight: 700;
+    font-size: 2rem; /* user prefers larger size */
+    text-decoration: none;
+    transition: color 420ms ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    transform: translateY(6px); /* vertically center with logo */
+    margin-left: -4px; /* scooch the name slightly left toward the logo */
+}
+/* When hovering or focusing the group (logo or name), make the text white and shake the logo */
+.brand-group:hover .brand-name,
+.brand-group:focus-within .brand-name {
+    color: #fff;
+    transition: color 140ms ease-out;
+}
+
+/* Homepage: brand text should be white by default */
+.home .brand-name {
+    color: #ffffff;
+}
+.brand-group:hover .logo,
+.brand-group:focus-within .logo {
+    transform: translateY(-7px);
+    animation: wobble 1000ms ease-in-out infinite;
+}
+.logo-link { display:inline-block; line-height:0; }
+.logo { height:80px; width:auto; display:block; transform: translateY(-4px); transition: transform 200ms cubic-bezier(.2,.9,.2,1); will-change: transform; }
+.logo-link:hover .logo,
+.logo-link:focus-visible .logo {
+    /* lift a bit and start wobble */
+    transform: translateY(-8px);
+    animation: wobble 1000ms ease-in-out infinite;
+}
+
+@keyframes wobble {
+  0%   { transform: translateY(-8px) rotate(-6deg); }
+  20%  { transform: translateY(-7px) rotate(6deg); }
+  40%  { transform: translateY(-8px) rotate(-3deg); }
+  60%  { transform: translateY(-7px) rotate(4deg); }
+  80%  { transform: translateY(-8px) rotate(-1deg); }
+ 100%  { transform: translateY(-8px) rotate(0deg); }
+}
+.nav-links { list-style:none; display:flex; gap:8px; align-items:center; font-size:13px; margin-left: auto; }
+.nav-links a:not(.frutiger-aero-button) {
+    color: rgba(255,255,255,0.96);
+    text-decoration: none;
+    font-weight:600;
+    padding:8px 14px;
+    border-radius:6px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.06));
+    box-shadow: 0 4px 0 rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.18);
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    display:inline-block;
+}
+
+/* Hover / focus / active states to clearly highlight the menu items */
+.nav-links a:hover, .nav-links a:focus {
+    background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(0,0,0,0.08));
+    transform: translateY(-2px);
+    outline: none;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.18);
+}
+.nav-links a:active {
+    background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.18));
+    transform: translateY(0);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.28);
+}
+.nav-links a[aria-current="page"], .nav-links a.active {
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+}
+.nav-links a:focus-visible {
+    outline: 2px solid rgba(255,255,255,0.24);
+    outline-offset: 2px;
+}
+
+/* header gloss + bevel (skeuomorphic) */
+.app-header::before { display: none !important; }
+
+.app-header::after { display: none !important; }
+
+/* fallback for browsers without backdrop-filter */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+    .app-header {
+        /* fallback: solid but subtly tinted bar */
+        background: linear-gradient(180deg, rgba(249,115,22,0.98), rgba(249,115,22,0.9));
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+    }
+    .app-header::before { display:none; }
+    .app-header::after { display:none; }
+}
+
+/* window controls */
+.nav-right { display:flex; align-items:center; gap:8px; margin-left: auto; }
+.window-controls { display:flex; gap:6px; align-items:center; }
+.win-btn { background: transparent; border: none; color: rgba(255,255,255,0.9); width:32px; height:28px; display:inline-flex; align-items:center; justify-content:center; border-radius:4px; cursor:pointer; font-size:13px; }
+.win-btn:hover { background: rgba(0,0,0,0.14); }
+.win-btn:active { background: rgba(0,0,0,0.2); }
+.win-close:hover { background: rgba(255,0,0,0.92); color: #fff; }
+
+/* ensure nav layout keeps controls at right */
+.nav { align-items:center; height:100%; width:100%; max-width: none; padding:0 48px; }
+
+/* make room for fixed header so main content isn't hidden */
+.main { display:flex; align-items:center; justify-content:center; padding:32px; padding-top:128px; }
+
+.main { display:flex; align-items:center; justify-content:center; padding:32px; padding-top:128px; }
+.main-image { max-width:90%; height:auto; border-radius:8px; }
+
+/* Homepage layout: message on the left, product-style card on the right */
+.home .main {
+    display:flex;
+    align-items:center; /* vertically center the card */
+    justify-content:flex-start;
+    gap:28px;
+    padding:32px;
+    padding-top:128px;
+}
+.home-left { flex:1; display:flex; align-items:center; }
+.home-side { margin-left:auto; margin-right:64px; display:flex; align-items:flex-start; }
+.home .product-card { width: clamp(468px, 32.4vw, 684px); padding:28px; display:flex; flex-direction:column; align-items:center; text-align:center; transition: none; }
+
+/* Ensure homepage card visuals (padding, background, shadow) match the fence product card */
+.home .product-card {
+    border-radius: 12px;
+    background: linear-gradient(180deg, #eceff1 0%, #e0e3e6 20%, #cfcfd3 52%, #e0e3e6 82%, #eceff1 100%);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+/* Disable hover lift/transform for homepage card while keeping a static shadow */
+.home .product-card:hover,
+.home .product-card:focus-within,
+.home .product-card-link:hover .product-card,
+.home .product-card-link:focus .product-card {
+    transform: none !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12) !important;
+}
+.home .product-logo { max-width:320px; }
+
+/* Subtext under the card title (Segoe UI) */
+.product-card .card-sub {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin: 6px 0 0 0;
+    text-align: center;
+}
+
+/* Left-align the homepage card paragraph for better readability */
+.home .product-card .card-sub {
+    text-align: left;
+}
+
+.product-card .card-sub p { margin: 0; }
+.product-card .card-sub ul { list-style: disc; padding-left: 1.1rem; margin: 14px auto; text-align: left; display: inline-block; }
+.product-card .card-sub ul li { margin: 6px 0; }
+
+/* Availability line under product card list */
+.product-card .availability {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin: 0; /* spacing handled by ul margin (14px bottom) */
+    text-align: center;
+}
+
+/* Actions area inside product cards (centered button) */
+.product-card .card-actions {
+    margin-top: 28px;
+    text-align: center;
+}
+
+/* Right-align container used on product detail pages */
+.detail-side { display:flex; justify-content:flex-end; align-items:flex-start; margin-left:auto; margin-right:64px; }
+
+/* Left column used on product detail pages (holds video/trailer) */
+.detail-left { display:flex; align-items:flex-start; justify-content:flex-start; margin-left:64px; margin-right:12px; flex: 0 0 55%; }
+.with-subheader .main { align-items: flex-start; }
+.detail-left, .detail-side { align-self: stretch; }
+.detail-side { display:flex; justify-content:flex-end; align-items:flex-start; margin-left:auto; margin-right:64px; flex: 0 0 45%; }
+.detail-left .product-trailer {
+    height: 100%;
+    width: auto;
+    max-width: none;
+    border-radius: 10px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    background: #000;
+    display: block;
+    object-fit: cover;
+    margin-top: 0;
+}
+
+@media (max-width: 860px) {
+    /* Show the video/embed area on small screens so trailers are visible */
+    .detail-left { display:flex; }
+}
+
+/* Vimeo embed styling: ensure iframe is visible and has a usable height */
+.vimeo-embed { width: 100%; max-width: 980px; margin: 0 auto; }
+.vimeo-embed iframe { display: block; width: 100%; height: 480px; border: 0; z-index: 1; }
+
+@media (max-width: 860px) {
+    .detail-left { flex: 0 0 100%; margin-left: 0; margin-right: 0; }
+    .vimeo-embed iframe { height: 320px; }
+}
+
+/* Fallback/video wrapper adjustments to align with product card */
+.video-fallback { margin-top: 36px; border-radius: 10px; overflow: hidden; }
+@media (max-width: 860px) {
+    .video-fallback { margin-top: 24px; border-radius: 8px; }
+}
+
+/* Ensure iframe/video fill the rounded container and don't show square corners */
+.video-fallback iframe,
+.video-fallback video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 0; /* container handles rounding */
+}
+
+/* Stacked card variant for detail pages */
+.product-card.stacked { display:flex; flex-direction:column; align-items:center; text-align:center; width: clamp(468px, 32.4vw, 684px); padding:28px; transition: none; }
+
+@media (max-width: 860px) {
+    .detail-side { margin-right:18px; justify-content:center; }
+    .product-card.stacked { width: 100%; }
+}
+
+/* Disable hover/transform and keep static shadow for stacked/detail cards */
+.product-card.stacked,
+.detail-side .product-card {
+    transition: none !important;
+    transform: none !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12) !important;
+    cursor: default !important;
+}
+.product-card.stacked:hover,
+.product-card.stacked:focus-within,
+.detail-side .product-card:hover,
+.detail-side .product-card:focus-within,
+.product-card-link:hover .product-card.stacked,
+.product-card-link:focus .product-card.stacked {
+    transform: none !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12) !important;
+}
+
+@media (max-width: 860px) {
+    .home-side { margin-right:18px; }
+}
+
+/* Ensure homepage message is visible and centered */
+.home-message {
+    color: var(--text);
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Buttons (use brand color) */
+button {
+    /* Frutiger / Aero-inspired button */
+    --hue: 28;
+    --button-background: oklch(75% 0.06 var(--hue) / 0.95);
+    --bg-dark: oklch(45% 0.06 var(--hue) / 0.88);
+    --button-foreground: oklch(12% 0.06 var(--hue));
+
+    background-color: var(--button-background);
+    background-image: var(--bottom-glow), linear-gradient(to bottom, var(--bg-dark), var(--button-background));
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+    padding: 10px 16px;
+    border-radius: 9999px;
+    color: var(--button-foreground);
+    font-weight:700;
+    cursor: pointer;
+    box-shadow: 0 8px 10px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.16);
+    transition: transform 140ms ease, box-shadow 140ms ease;
+}
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 22px rgba(0,0,0,0.24);
+}
+button:active {
+    transform: translateY(0);
+    box-shadow: inset 0 4px 8px rgba(0,0,0,0.22);
+}
+
+/* full-button gloss overlay */
+button::after {
+    content: '';
+    position: absolute;
+    top: 6%;
+    left: 0.6em;
+    width: calc(100% - 1.2em);
+    height: 40%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.85), rgba(255,255,255,0.08));
+    border-radius: 9999px;
+    transition: background 300ms ease;
+    pointer-events: none;
+}
+
+/* Authentic Frutiger Aero Button CSS */
+.frutiger-aero-button {
+    --hue: 140;
+    --sat: 0.2;
+    --glow-intensity: 0.7;
+    --fg: oklch(15% calc(var(--sat) * 0.5) var(--hue));
+    --bg: oklch(75% var(--sat) var(--hue) / 0.8);
+    --bg-dark: oklch(45% var(--sat) var(--hue) / 0.75);
+    --bottom-glow: radial-gradient(
+        farthest-corner at bottom center,
+        rgba(255, 255, 255, var(--glow-intensity)),
+        transparent
+    );
+    background-color: var(--bg);
+    background: 
+        var(--bottom-glow),
+        linear-gradient(to bottom, var(--bg-dark), var(--bg));
+    border: 1px solid var(--bg);
+    border-radius: 9999px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
+    color: var(--fg);
+    font-family: 'NeutronD', "Lucida Grande", "Lucida Sans Unicode", "Segoe UI", system-ui, sans-serif;
+    font-weight: 700;
+    /* default to medium size for the two nav buttons */
+    padding: 0.9em 2.25em;
+    font-size: 1rem;
+    text-shadow: 0 2px 0.5em rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    position: relative;
+    transition: background 300ms ease, box-shadow 300ms ease, transform 300ms ease, color 420ms ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.frutiger-aero-button::after {
+    content: "";
+    position: absolute;
+    top: 4%;
+    left: 0.75em;
+    width: calc(100% - 1.5em);
+    height: 40%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0.1)
+    );
+    border-radius: inherit;
+    transition: background 400ms ease;
+    pointer-events: none;
+}
+.frutiger-aero-button:hover,
+.frutiger-aero-button:focus,
+.frutiger-aero-button:focus-visible {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+    transform: translateY(-1px);
+    color: #ffffff;
+    transition: background 300ms ease, box-shadow 300ms ease, transform 300ms ease, color 140ms ease-out;
+}
+.frutiger-aero-button:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    transform: translateY(1px);
+}
+.frutiger-aero-button.small {
+    padding: 0.5em 1.5em;
+    font-size: 0.875rem;
+}
+.frutiger-aero-button.medium {
+    padding: 0.75em 2em;
+    font-size: 1rem;
+}
+.frutiger-aero-button.large {
+    padding: 1em 3em;
+    font-size: 1.125rem;
+}
+
+/* Utility */
+a { color: inherit; }
+
+/* Products page sub-header (appears only when body has .with-subheader) */
+.sub-header {
+    position: fixed;
+    top: 96px; /* sits directly under the main header */
+    left: 0;
+    right: 0;
+    height: 48px; /* half the main header (96px) */
+    z-index: 950;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.14);
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+    background: linear-gradient(180deg, #d9dbe0 0%, #c3c6cb 18%, #9fa3a9 48%, #c3c6cb 78%, #d9dbe0 100%);
+    overflow: hidden;
+}
+.sub-header::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 55%;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.12) 10%, rgba(255,255,255,0.04) 22%, transparent 40%);
+    mix-blend-mode: overlay;
+}
+.sub-bar-inner { max-width:1200px; width:100%; padding:0 48px; display:flex; align-items:center; justify-content:flex-start; }
+.sub-title { color: #0f172a; font-family: 'NeutronD', sans-serif; font-weight:700; font-size:1rem; text-shadow: 0 1px 0 rgba(255,255,255,0.45); }
+.sub-actions { display:flex; align-items:center; gap:12px; }
+
+/* Ensure sub-header buttons share identical sizing and vertical centering */
+.sub-bar-inner .frutiger-aero-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5em 1.5em; /* match .frutiger-aero-button.small */
+    line-height: 1;
+}
+
+/* Make sub-header buttons more rectangular while keeping rounded corners */
+.sub-bar-inner .frutiger-aero-button {
+    border-radius: 10px !important;
+}
+.sub-bar-inner .frutiger-aero-button::after {
+    border-radius: 10px !important;
+}
+
+.sub-bar-inner .frutiger-aero-button.small {
+    padding: 0.5em 1.5em;
+}
+
+/* Active sub-header button: show white text to indicate current page */
+.sub-bar-inner .frutiger-aero-button[aria-current="page"],
+.sub-bar-inner .frutiger-aero-button.active {
+    color: #ffffff;
+}
+
+/* Increase page content offset only when sub-header is present */
+.with-subheader .main { padding-top: 176px; }
+
+/* Product card (reuses the chrome/silver look from sub-header) */
+.product-card {
+    width: min(720px, 92%);
+    padding: 36px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #eceff1 0%, #e0e3e6 20%, #cfcfd3 52%, #e0e3e6 82%, #eceff1 100%);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 260ms cubic-bezier(.2,.9,.2,1);
+    will-change: transform, box-shadow;
+}
+
+.product-card-link { display:inline-block; text-decoration:none; }
+.product-card { cursor: pointer; }
+.product-card-link:focus .product-card,
+.product-card-link:hover .product-card { transform: translateY(-12px); box-shadow: 0 20px 46px rgba(0,0,0,0.18); }
+.product-card::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 60%;
+    pointer-events: pointer;
+    background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.12) 12%, rgba(255,255,255,0.04) 24%, transparent 45%);
+    mix-blend-mode: overlay;
+}
+.product-logo { max-width: 320px; height: auto; display: block; }
+
+.product-card:hover,
+.product-card:focus-within {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 46px rgba(0,0,0,0.18);
+}
+
+/* Card title for standalone homepage card */
+.product-card .card-title {
+    font-family: 'NeutronD', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 800;
+    font-style: italic;
+    color: #0b1220;
+    margin: 0 0 12px 0;
+    text-align: center;
+}
+.product-card { cursor: default; }
+
+/* When a product card is clickable (wrapped in a link), show pointer */
+a.product-card-link,
+a.product-card-link .product-card {
+    cursor: pointer;
+}
+
+/* Make the trailing punctuation lighter when wrapped in .no-bold */
+.product-card .card-title .no-bold {
+    font-weight: 400;
+    display: inline-block;
+    font-family: inherit;
+}
+
+/* Two-column layout for products */
+.products-grid { max-width: 1200px; margin: 28px auto 0; display:flex; gap:28px; align-items:flex-start; padding: 0 18px; }
+.product-column { flex:1; display:flex; justify-content:center; }
+
+.product-info-card {
+    width: min(720px, 92%);
+    min-height: 320px;
+    padding: 36px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #f6f7f8 0%, #eef0f2 18%, #e6e8ea 100%);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.10);
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    justify-content:center;
+    align-items: center;
+}
+.product-info-card::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+}
+.info-title { font-family: 'NeutronD', sans-serif; font-size:1.25rem; font-weight:800; color: #0b1220; margin:0; }
+.info-text { color: #394050; margin:0 0 8px 0; }
+.info-actions { display:flex; gap:12px; }
+
+.info-center { font-family: 'NeutronD', sans-serif; font-size:1.125rem; color:#233; text-align:center; }
+
+@media (max-width: 860px) {
+    .products-grid { flex-direction: column; }
+    .product-column { justify-content:center; }
+    .product-card, .product-info-card { width: 100%; }
+}
+
+/* Ensure main content leaves room for a fixed bottom sub-bar */
+.main { padding-bottom: calc(96px * 0.9); }
+
+.bottom-subbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(48px * 0.9); /* reduced by 10% */
+    z-index: 9999; /* bring to front */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 -10px 28px rgba(0,0,0,0.14);
+    border-top: 1px solid rgba(0,0,0,0.12);
+    background: linear-gradient(180deg, #cfe8ff 0%, #9ecfff 50%, #6fb8ff 100%);
+    overflow: visible;
+    transform: translateZ(0);
+}
+.bottom-subbar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 55%;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.06) 30%, transparent 60%);
+    mix-blend-mode: overlay;
+}
+.bottom-subbar .sub-bar-inner { max-width:1200px; width:100%; padding:0 calc(48px * 0.9); display:flex; align-items:center; justify-content:center; }
+.bottom-subbar .sub-actions { margin-left:auto; display:flex; gap:12px; align-items:center; }
+.bottom-subbar .site-copy {
+    font-family: 'NeutronD', sans-serif;
+    font-weight: 700;
+    font-size: calc(0.95rem * 0.9); /* scaled down 10% */
+    color: #042a4f;
+    text-align: center;
+}
+
+.bottom-subbar .site-copy a {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: 800;
+}
+
+/* Make the bottom sub-bar link text fade to white on hover/focus (like the buttons) */
+.bottom-subbar .site-copy a {
+    transition: color 140ms ease-out;
+    cursor: pointer;
+}
+.bottom-subbar .site-copy a:hover,
+.bottom-subbar .site-copy a:focus,
+.bottom-subbar .site-copy a:focus-visible {
+    color: #ffffff;
+    text-decoration: none;
+    outline: none;
+}
+
+@media (max-width: 860px) {
+    .main { padding-bottom: 80px; }
+    .bottom-subbar .sub-bar-inner { padding:0 18px; }
+}
+
+/* Loading bar styles removed per user request */
+
+
