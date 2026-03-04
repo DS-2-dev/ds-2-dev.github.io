@@ -1,12 +1,137 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>offline</title>
-  <meta name="robots" content="noindex" />
+  <title>Fence! Features — Citri Software</title>
+  <link rel="icon" href="../logomini.png" type="image/png">
+  <link rel="stylesheet" href="https://khang-nd.github.io/7.css/dist/7.css">
+  <link rel="stylesheet" href="../style.css?v=3">
+  <style>
+    .product-card.stacked { width: min(720px, 92vw); }
+    @media (max-width: 560px) {
+      .product-card.stacked { width: calc(100vw - 24px); padding: 14px; }
+    }
+  </style>
 </head>
-<body>
-offline
+<body class="with-subheader loading-active">
+  <header class="app-header">
+    <nav class="nav">
+      <div class="nav-left">
+        <div class="brand-group">
+          <a href="/" class="logo-link" aria-label="Home">
+            <img src="../logomini.png" alt="Logo" class="logo">
+          </a>
+          <a href="/" class="brand-name">Citri Software</a>
+        </div>
+        <ul class="nav-links" role="navigation" aria-label="Main navigation">
+          <li><a class="frutiger-aero-button" href="../products.html">Products</a></li>
+          <li><a class="frutiger-aero-button" href="../support.html">Customer Support</a></li>
+            <li><a class="frutiger-aero-button" href="../legal.html">Legal Notice</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="sub-header" role="region" aria-label="Products sub header">
+    <div class="sub-bar-inner">
+      <div class="sub-actions">
+        <a class="frutiger-aero-button small" href="../products.html">All Products</a>
+        <a class="frutiger-aero-button small" href="fence.html">Fence!</a>
+        <a class="frutiger-aero-button small" href="fence-features.html" aria-current="page">Fence! Features</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="main">
+    <div class="detail-left" style="display:none;"></div>
+    <!-- CHANGED: Added align-self: flex-start and removed auto margin -->
+    <div class="detail-side" style="display:flex; justify-content:center; margin:0 auto; flex:0 0 auto;">
+      <div style="display:flex; gap:24px; align-items:flex-start;">
+        <div class="product-card stacked" role="region" aria-label="Fence features">
+        <h2 class="card-title">Fence! Editions</h2>
+        <style>
+          .product-card { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--muted); }
+          .product-card .card-title { font-family: 'NeutronD', sans-serif; color: #0b1220; }
+
+          .pricing-table-wrapper { width:100%; overflow:auto; margin-top:12px; }
+          .pricing-table { width:100%; border-collapse:collapse; background:transparent; color:inherit; font-family: inherit; table-layout: auto; }
+          .pricing-table th { text-align:left; padding:14px 12px; background: linear-gradient(180deg,#eef3f6,#e0e3e6); border-bottom:2px solid rgba(0,0,0,0.06); font-weight:800; font-family: 'NeutronD', sans-serif; color: #0b1220; }
+          .pricing-table td { padding:10px 12px; vertical-align:top; border-bottom:1px solid rgba(0,0,0,0.04); color:inherit; }
+          
+          .pricing-table th:first-child { min-width: 130px; }
+          .pricing-table td:first-child { min-width: 130px; }
+          .pricing-table th:nth-child(3), .pricing-table td:nth-child(3) { min-width: 115px; }
+          
+          .pricing-table td:first-child > strong { display:inline; }
+          .pricing-table .price { font-weight:700; color:#0b1220; }
+          
+          .pricing-table th, .pricing-table td { text-align: left !important; }
+          .pricing-table .feature-list, .pricing-table .price { text-align: left !important; }
+          .pricing-table .feature-list { margin:0; padding-left:1.2rem; }
+          .pricing-table .feature-list li { margin-bottom:4px; }
+          
+          .pricing-table td { line-height: 1.4; }
+          
+          .pricing-table td, .pricing-table th { overflow: visible; white-space: normal; text-overflow: clip; }
+          
+          @media (max-width: 860px) {
+            .pricing-table th, .pricing-table td { padding:10px 8px; font-size: 0.96rem; }
+          }
+          .pricing-table td:first-child > strong { text-align: left; display:block; }
+          
+          @media (max-width: 560px) {
+            .product-card.stacked { width: calc(100vw - 24px); padding: 12px; }
+            .pricing-table { display: block; }
+            .pricing-table thead { display: none; }
+            .pricing-table tr { display: block; margin-bottom: 16px; border: 1px solid rgba(0,0,0,0.08); }
+            .pricing-table td { display: block; width: auto !important; padding: 8px 12px; }
+            .pricing-table td:first-child { background: linear-gradient(180deg,#eef3f6,#e0e3e6); font-weight: bold; }
+          }
+        </style>
+
+        <div class="pricing-table-wrapper">
+          <table class="pricing-table" role="table" aria-label="Fence editions and pricing">
+            <thead>
+              <tr>
+                <th scope="col">Edition</th>
+                <th scope="col">Key Features</th>
+                <th scope="col">Pricing</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="3" style="text-align:center; padding:36px 12px; font-weight:700; color:var(--muted);">Coming Soon!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:12px; align-self:flex-start;">
+          <div class="product-card stacked" role="region" aria-label="Nonprofit offer" style="width:320px; padding:20px;">
+            <h3 class="card-title" style="font-family: 'NeutronD', sans-serif; color:#0b1220; margin-top:0;">Is your club a nonprofit?</h3>
+            <div class="card-sub" style="text-align:left;">
+              <p>If your club is a nonprofit, or can't pay for any version of Fence! don't worry! You qualify for a lifetime free version of Fence! Lite. Reach out at [email coming soon!] for further contact!</p>
+            </div>
+          </div>
+
+          <div class="product-card stacked" role="region" aria-label="Complimentary Plaque" style="width:320px; padding:20px;">
+            <h3 class="card-title" style="font-family: 'NeutronD', sans-serif; color:#0b1220; margin-top:0;">Complimentary Plaque</h3>
+            <div class="card-sub" style="text-align:left;">
+              <p>Each version of Fence comes with a customized plaque at no cost. It includes your club logo and Fence! for you to display.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="bottom-subbar" role="contentinfo" aria-label="Bottom site bar">
+    <div class="sub-bar-inner">
+      <div class="site-copy">© 2026 Citri Software LLC. All rights reserved. | Reach out <a href="https://www.linkedin.com/in/dante-smith-/" target="_blank" rel="noopener">here</a></div>
+    </div>
+  </div>
+  <script src="../script.js" defer></script>
 </body>
 </html>
