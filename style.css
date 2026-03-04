@@ -303,7 +303,7 @@ body {
   80%  { transform: translateY(-8px) rotate(-1deg); }
  100%  { transform: translateY(-8px) rotate(0deg); }
 }
-.nav-links { list-style:none; display:flex; gap:8px; align-items:center; font-size:13px; margin-left: auto; }
+.nav-links { list-style:none; display:flex; gap:12px; align-items:center; font-size:13px; margin-left: auto; }
 .nav-links a:not(.frutiger-aero-button) {
     color: rgba(255,255,255,0.96);
     text-decoration: none;
@@ -851,6 +851,147 @@ button::after {
     font-size: 1.125rem;
 }
 
+/* Reduce the overall visual length of the universal nav buttons by 10% */
+/* Targets only buttons in the main nav so other button sizes remain unchanged */
+.nav .nav-links .frutiger-aero-button {
+    padding: 0.81em 2.025em; /* 0.9em/2.25em scaled down by 10% */
+}
+
+/* More specific: reduce overall width and height (including font-size)
+   for the three universal nav buttons only (Products, Customer Support, Legal Notice)
+   by 10% without affecting other .frutiger-aero-button usages. */
+.app-header .nav .nav-links > li > a.frutiger-aero-button {
+    padding: 0.81em 2.025em; /* vertical/horizontal reduced 10% */
+    font-size: 0.9rem; /* reduce text size by 10% to match physical size reduction */
+}
+
+/* Encase each universal-nav button in a chrome-styled rectangle matching product cards.
+   Only the bottom corners are rounded to create a flat top with a rounded bottom edge. */
+/* Move chrome/card styling to the parent list item so the button sits "inside" the rectangle.
+   This avoids changing HTML structure and keeps the anchor as the interactive element. */
+
+.app-header .nav .nav-links > li {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* increase top padding so the chrome box extends upward */
+    padding: 20px 10px 8px 10px; /* top/right/bottom/left */
+    /* negative top margin to push the box above the header top (moderate: ~24px) */
+    margin: -24px 6px 0 6px;
+    background-color: #eceff1 !important; /* fallback solid color */
+    background-image: linear-gradient(180deg, #eceff1 0%, #e0e3e6 20%, #cfcfd3 52%, #e0e3e6 82%, #eceff1 100%) !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12) !important;
+    border-radius: 0 0 12px 12px; /* only bottom corners rounded */
+    position: relative; /* allow sheen pseudo-element */
+    overflow: visible; /* allow the box to extend past header */
+    isolation: isolate; /* prevent parent blend modes from affecting the box */
+    z-index: 1000; /* keep the chrome box above header gloss */
+}
+
+/* Make the anchor visually sit inside the chrome card: restore frutiger button look but smaller */
+.app-header .nav .nav-links > li > a.frutiger-aero-button {
+    background: var(--bottom-glow), linear-gradient(to bottom, var(--bg-dark, rgba(0,0,0,0.06)), var(--bg, #eceff1));
+    box-shadow: 0 4px 4px rgba(0,0,0,0.4);
+    padding: 0.6em 1.2em; /* smaller pill inside the card */
+    border-radius: 9999px !important; /* fully rounded pill */
+    color: var(--fg, #0b1220) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    transform: translateY(10px); /* nudge the inner button downward */
+    transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+/* Hover the chrome box instead of the anchor to lift it slightly */
+.app-header .nav .nav-links > li:hover,
+.app-header .nav .nav-links > li:focus-within {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.16);
+}
+
+/* Match the product-card glossy overlay so the chrome box has the same sheen */
+.app-header .nav .nav-links > li::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -6px; /* nudge sheen upward so it covers the extended area */
+    height: 80%;
+    pointer-events: none;
+    /* Use a straightforward semi-transparent sheen (no blend) so it doesn't pick up header colors */
+    background: linear-gradient(180deg, rgba(255,255,255,0.60) 0%, rgba(255,255,255,0.22) 12%, rgba(255,255,255,0.06) 24%, transparent 45%);
+    mix-blend-mode: normal;
+    opacity: 0.96;
+    z-index: 1001; /* ensure sheen is above the box background */
+}
+
+/* Keep the chrome box lifted when the user is on that page.
+   Uses :has() where available; also provide an anchor-level fallback. */
+.app-header .nav .nav-links > li:has(> a[aria-current="page"]),
+.app-header .nav .nav-links > li:has(> a.active) {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.16);
+}
+
+/* Fallback for browsers without :has(): style the anchor so it visually matches the active/tab state. */
+.app-header .nav .nav-links > li > a[aria-current="page"],
+.app-header .nav .nav-links > li > a.active {
+    box-shadow: 0 6px 14px rgba(0,0,0,0.14) !important;
+    /* ensure the inner pill keeps its lowered position for the tab look */
+    transform: translateY(10px) !important;
+}
+
+/* Make hover and focus of the inner nav pills turn orange (header accent) without changing defaults */
+.app-header .nav .nav-links > li > a.frutiger-aero-button:hover,
+.app-header .nav .nav-links > li > a.frutiger-aero-button:focus {
+    background: linear-gradient(180deg, #ff9c40 0%, var(--bar-color) 50%, #e65a00 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.18) !important;
+    transform: translateY(10px) !important;
+    border: 1px solid #d85900 !important;
+}
+
+/* Keep the inner pill orange when the tab is active/selected */
+.app-header .nav .nav-links > li > a.frutiger-aero-button[aria-current="page"],
+.app-header .nav .nav-links > li > a.frutiger-aero-button.active,
+.app-header .nav .nav-links > li:has(> a[aria-current="page"]) > a.frutiger-aero-button,
+.app-header .nav .nav-links > li:has(> a.active) > a.frutiger-aero-button {
+    background: linear-gradient(180deg, #ff9c40 0%, var(--bar-color) 50%, #e65a00 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.18) !important;
+    transform: translateY(10px) !important;
+    border: 1px solid #d85900 !important;
+}
+
+/* Force nav container above header pseudo-elements that add global gloss */
+.app-header .nav { position: relative !important; z-index: 9999 !important; }
+
+/* Restore the original orange gradient for the main header bar */
+html body .app-header {
+    background: linear-gradient(180deg, #ff9c40 0%, var(--bar-color) 50%, #e65a00 100%) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.18) !important;
+    box-shadow: none !important;
+}
+
+/* Ensure brand text color: white on the homepage, black elsewhere. High-specificity to override earlier rules. */
+body.home .brand-name { color: #ffffff !important; }
+body:not(.home) .brand-name { color: #000000 !important; }
+
+/* When not on the homepage, hover/focus on the brand-group makes the brand-name white (same gimmick as footer link). */
+body:not(.home) .brand-group:hover .brand-name,
+body:not(.home) .brand-group:focus-within .brand-name {
+    color: #ffffff !important;
+    transition: color 140ms ease-out;
+}
+
+/* Hide the glossy pseudo-overlay on these nav anchors to keep chrome look */
+.app-header .nav .nav-links > li > a.frutiger-aero-button::after { /* keep glossy overlay for the inner pill */ display: block !important; }
+
+
 /* Utility */
 a { color: inherit; }
 
@@ -1073,6 +1214,8 @@ a.product-card-link .product-card {
     outline: none;
 }
 
+/* LinkedIn/footer link color reverted to default behavior (no forced white on non-home). */
+
 @media (max-width: 860px) {
     .main { padding-bottom: 80px; }
     .bottom-subbar .sub-bar-inner { padding:0 18px; }
@@ -1081,3 +1224,99 @@ a.product-card-link .product-card {
 /* Loading bar styles removed per user request */
 
 
+
+
+/* ========================================= */
+/* NAV RECTANGLES – MATCH PRODUCT CARD      */
+/* Height-compensated chrome gradient       */
+/* ========================================= */
+
+.app-header .nav .nav-links > li {
+    padding: 8px 12px;
+
+    border-radius: 0 0 12px 12px;
+
+    background: linear-gradient(
+        180deg,
+        #eceff1 0%,
+        #e0e3e6 18%,
+        #cfcfd3 42%,
+        #cfcfd3 58%,
+        #e0e3e6 82%,
+        #eceff1 100%
+    ) !important;
+
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+
+    position: relative;
+    overflow: hidden;
+
+    transition: transform 260ms cubic-bezier(.2,.9,.2,1),
+                box-shadow 260ms cubic-bezier(.2,.9,.2,1);
+
+    will-change: transform, box-shadow;
+    
+}
+
+
+
+
+
+/* === Extend nav button rectangles taller while keeping buttons in place === */
+.app-header .nav .nav-links > li {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 10px 8px 10px; /* top/right/bottom/left: taller rectangle */
+    margin: -60px 6px 0 6px; /* push rectangle upward to compensate for taller padding */
+    background-color: #eceff1 !important;
+    background-image: linear-gradient(180deg, #eceff1 0%, #e0e3e6 20%, #cfcfd3 52%, #e0e3e6 82%, #eceff1 100%) !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12) !important;
+    border-radius: 0 0 12px 12px; /* only bottom corners rounded */
+    position: relative; /* allow sheen pseudo-element */
+    overflow: visible;
+    isolation: isolate;
+    z-index: 1000;
+}
+
+.app-header .nav .nav-links > li {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 12px; /* taller rectangle */
+    margin: -48px 6px 0 6px; /* lift above viewport */
+    background-color: #eceff1 !important;
+    background-image: linear-gradient(180deg, #eceff1 0%, #e0e3e6 20%, #cfcfd3 52%, #e0e3e6 82%, #eceff1 100%) !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12) !important;
+    border-radius: 0 0 12px 12px;
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+    z-index: 1000;
+}
+
+.app-header .nav .nav-links > li > button {
+    position: relative;
+    top: 16px; /* pushes button down to match old spot */
+}
+
+.app-header .nav .nav-links > li:hover,
+.app-header .nav .nav-links > li:focus-within {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+}
+
+/* Fallback for browsers without :has(): apply same lifted/tab look when JS adds .active-tab */
+.app-header .nav .nav-links > li.active-tab {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.16) !important;
+}
+.app-header .nav .nav-links > li.active-tab > a.frutiger-aero-button {
+    background: linear-gradient(180deg, #ff9c40 0%, var(--bar-color) 50%, #e65a00 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.18) !important;
+    transform: translateY(10px) !important;
+    border: 1px solid #d85900 !important;
+}
