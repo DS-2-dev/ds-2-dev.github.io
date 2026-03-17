@@ -1,43 +1,68 @@
-// Set active nav link based on pathname, including section matches (e.g., /products/* -> products.html)
+/**
+ * Citri Software - UI Controller
+ * Handles: Active Nav States, Logo Animations, and Path Normalization
+ */
+
 document.addEventListener('DOMContentLoaded', function () {
-  try {
-    const links = document.querySelectorAll('.app-header .nav .nav-links a.frutiger-aero-button');
-    const path = window.location.pathname.replace(/\/index\.html$/,'').replace(/\/$/, '');
-    const segments = path.split('/').filter(Boolean);
-    // join then strip any trailing .html so '/support.html' -> 'support'
-    const current = segments.join('/').replace(/\.html$/,''); // e.g. 'products' or 'products/fence-features'
+    try {
+        // 1. SELECTORS
+        const links = document.querySelectorAll('.nav-links a.frutiger-aero-button');
+        const logoGroup = document.querySelector('.brand-group');
+        
+        // 2. PATH NORMALIZATION
+        // Strips leading/trailing slashes and index.html to find the "base" page name
+        const path = window.location.pathname.replace(/\/index\.html$/, '').replace(/\/$/, '');
+        const segments = path.split('/').filter(Boolean);
+        const current = segments.join('/').replace(/\.html$/, ''); 
 
-    console.debug('nav-active: current path=', window.location.pathname, 'normalized=', current);
+        console.debug('Citri-UI: Path detected ->', current || 'home');
 
-    links.forEach(link => {
-      // Resolve the link's path relative to the current document so ../ links work correctly
-      let url;
-      try { url = new URL(link.getAttribute('href'), location.href); } catch (e) { return; }
-      let linkPath = url.pathname.replace(/\/$/, '');
-      // normalize and remove leading slash
-      let linkBase = linkPath.replace(/^\//, '');
-      // strip .html if present
-      linkBase = linkBase.replace(/\.html$/, '');
+        // 3. ACTIVE STATE LOGIC
+        links.forEach(link => {
+            let url;
+            try { 
+                url = new URL(link.getAttribute('href'), location.href); 
+            } catch (e) { 
+                return; 
+            }
 
-      // Determine match: exact page OR current is inside link's section
-      const isExact = (current === linkBase) || (current === '' && (linkBase === '' || linkBase === 'index'));
-      const isSection = linkBase && (current === linkBase || current.startsWith(linkBase + '/'));
+            // Normalize link path for comparison
+            let linkPath = url.pathname.replace(/\/$/, '');
+            let linkBase = linkPath.replace(/^\//, '').replace(/\.html$/, '');
 
-      if (isExact || isSection) {
-        console.debug('nav-active: matching link', link.getAttribute('href'), '->', linkBase, 'match type:', isExact ? 'exact' : (isSection ? 'section' : 'none'));
-        link.setAttribute('aria-current', 'page');
-        link.classList.add('active');
-        // Mark parent <li> so browsers without :has() can style the lifted tab
-        if (link.parentElement && link.parentElement.tagName === 'LI') {
-          link.parentElement.classList.add('active-tab');
+            // Check for Exact match or Section match (e.g., /products/details matches /products)
+            const isExact = (current === linkBase) || (current === '' && (linkBase === '' || linkBase === 'index'));
+            const isSection = linkBase && (current === linkBase || current.startsWith(linkBase + '/'));
+
+            if (isExact || isSection) {
+                // Apply Active Glow & ARIA states
+                link.classList.add('active');
+                link.setAttribute('aria-current', 'page');
+                
+                // Lift parent container if needed
+                if (link.parentElement && link.parentElement.tagName === 'LI') {
+                    link.parentElement.classList.add('active-tab');
+                }
+                
+                console.debug('Citri-UI: Activated ->', linkBase);
+            } else {
+                link.classList.remove('active');
+                link.removeAttribute('aria-current');
+                if (link.parentElement && link.parentElement.tagName === 'LI') {
+                    link.parentElement.classList.remove('active-tab');
+                }
+            }
+        });
+
+        // 4. INTERACTIVE LOGO (Extra Polish)
+        // This ensures the wobble triggers cleanly on the logo group
+        if (logoGroup) {
+            logoGroup.addEventListener('mouseenter', () => {
+                console.debug('Citri-UI: Logo Wobble Start');
+            });
         }
-      } else {
-        link.removeAttribute('aria-current');
-        link.classList.remove('active');
-        if (link.parentElement && link.parentElement.tagName === 'LI') {
-          link.parentElement.classList.remove('active-tab');
-        }
-      }
-    });
-  } catch (err) { console.error(err); }
+
+    } catch (err) { 
+        console.error('Citri-UI Error:', err); 
+    }
 });

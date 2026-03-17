@@ -37,29 +37,35 @@
   </div>
 
   <main class="main">
-    
-
-    <div class="detail-side">
-      <div class="product-card stacked" role="region" aria-label="Featured card">
-        <h2 class="card-title">Introducing Fence<span class="no-bold">!</span> The perfect solution to Fencing tournament management software</h2>
-        <div class="card-sub">
-          <p>Updated UI and customizable preference options</p>
-          <ul>
-            <li>Easily import any fencing file</li>
-            <li>View any task (Pools, DE) at any time</li>
-            <li>Sub actions (+/- Fencer) accessible</li>
-            <li>Mobile device scoring integrated</li>
-            <li>Display mode for spectators</li>
-            <li>Cloud storage for final results</li>
-            <li>Sync to Fencing Time Live™</li>
-          </ul>
-          <p class="availability">Available on Chrome, Linux, Windows, and Apple systems</p>
-          <div class="card-actions">
-            <a class="frutiger-aero-button medium" href="fence-features.html">See all Features</a>
-          </div>
-        </div>
+    <!-- Coming soon card with countdown -->
+    <div style="min-height:240px; display:flex; align-items:center; justify-content:center; width:100%;">
+      <div class="product-card stacked" role="region" aria-label="Fence coming soon" style="text-align:center; max-width:420px;">
+        <h3 class="card-title" style="margin:0 0 8px 0; font-size:2.6rem;">6.6.2026</h3>
+        <div id="countdown" aria-live="polite" style="font-size:1.6rem; font-weight:800; color:#0b1220; margin-top:8px; text-align:center;">--d --h --m --s</div>
       </div>
     </div>
+    <script>
+      (function () {
+        // Target date: 6 June 2026 at 00:00:00 UTC
+        const target = new Date('2026-06-06T00:00:00Z');
+        const el = document.getElementById('countdown');
+        if (!el) return;
+        function pad(n){ return String(n).padStart(2,'0'); }
+        function update(){
+          const now = new Date();
+          let diff = Math.max(0, target - now);
+          const days = Math.floor(diff / 86400000);
+          diff %= 86400000;
+          const hours = Math.floor(diff / 3600000);
+          diff %= 3600000;
+          const minutes = Math.floor(diff / 60000);
+          const seconds = Math.floor((diff % 60000) / 1000);
+          el.textContent = `${pad(days)}d ${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+        }
+        update();
+        const timer = setInterval(function(){ update(); if (new Date() >= target) clearInterval(timer); }, 1000);
+      })();
+    </script>
   </main>
 
   <div class="bottom-subbar" role="contentinfo" aria-label="Bottom site bar">
