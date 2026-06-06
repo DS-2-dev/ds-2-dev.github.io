@@ -1,185 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Citri Software</title>
-    <style>
-        @font-face {
-            font-family: 'NeutronD';
-            src: url('neutrond.ttf') format('truetype');
-            font-weight: 300 900;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        body {
-            font-family: 'NeutronD', "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif;
-            background-color: #000000;
-            margin: 0;
-            padding: 0;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            cursor: default;
-            overflow: hidden;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            perspective: 1000px;
-        }
-
-        .launch-date {
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 40px;
-        }
-
-        .timer-display {
-            display: flex;
-            font-size: 64px;
-            font-weight: bold;
-            line-height: 1;
-            transform: perspective(600px) rotateX(8deg) scale(1.1);
-            transform-style: preserve-3d;
-            
-            /* Stronger reflection: Opacity increased to 0.4 */
-            -webkit-box-reflect: below -8px linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 100%);
-        }
-
-        .unit-group {
-            display: flex;
-            align-items: baseline;
-            margin-right: 32px; 
-        }
-
-        .unit-group:last-child {
-            margin-right: 0;
-        }
-
-        .slot {
-            height: 1em;
-            width: 0.65em; 
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .column {
-            transition: transform 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .column span {
-            height: 1em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .label {
-            font-size: 32px;
-            margin-left: 4px;
-            opacity: 0.9;
-        }
-    </style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Home</title>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
+	<main class="page-shell">
+		<section class="hero-row">
+			<h1 class="hero-copy">The world of Fencing... is about to change</h1>
 
-    <div class="container">
-        <div class="launch-date">6.6.2026</div>
-        <div id="timer" class="timer-display"></div>
-    </div>
+			<div id="checkin-sort-control" class="display-stage-control" aria-label="Tournament lifecycle">
+				<div class="segmented-control">
+					<div class="segment-track"></div>
+					<button type="button" class="segment-btn active" data-display-phase="checkin" aria-pressed="true">
+						<span class="display-stage-icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+						</span>
+						<span>Check-In</span>
+					</button>
+					<button type="button" class="segment-btn" data-display-phase="seeding" aria-pressed="false">
+						<span class="display-stage-icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4v16" /><path d="M16 4v16" /><path d="M4 8h16" /><path d="M4 16h16" /></svg>
+						</span>
+						<span>Seeding</span>
+					</button>
+					<button type="button" class="segment-btn" data-display-phase="pools" aria-pressed="false">
+						<span class="display-stage-icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="8" height="8" rx="1.5"></rect><rect x="12" y="12" width="8" height="8" rx="1.5"></rect></svg>
+						</span>
+						<span>Pools</span>
+					</button>
+					<button type="button" class="segment-btn" data-display-phase="de" aria-pressed="false">
+						<span class="display-stage-icon" aria-hidden="true">
+							<svg viewBox="0 0 32 32"><path d="M 6 8 h 8 v 8 h 12 M 6 24 h 8 v -8" fill="none"></path></svg>
+						</span>
+						<span>Direct Elim</span>
+					</button>
+					<button type="button" class="segment-btn" data-display-phase="results" aria-pressed="false">
+						<span class="display-stage-icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+						</span>
+						<span>Results</span>
+					</button>
+				</div>
+			</div>
+		</section>
 
-    <script>
-        const targetDate = new Date('2026-06-06T00:00:00').getTime();
-        const timerContainer = document.getElementById('timer');
 
-        function createColumn() {
-            const slot = document.createElement('div');
-            slot.className = 'slot';
-            const column = document.createElement('div');
-            column.className = 'column';
-            for (let i = 0; i <= 9; i++) {
-                const span = document.createElement('span');
-                span.innerText = i;
-                column.appendChild(span);
-            }
-            slot.appendChild(column);
-            return { slot, column };
-        }
 
-        let slots = [];
 
-        function initTimer() {
-            const groups = [
-                { label: 'd', digits: 2 }, 
-                { label: 'h', digits: 2 },
-                { label: 'm', digits: 2 },
-                { label: 's', digits: 2 }
-            ];
+        <section class="sub-hero">
+			<span>A revolutionary way to run a tournament.</span>
+			<span>A powerful analytics machine to predict winners.</span>
+			<span>And the entire fencing experience, down to the size of your pocket&hellip;</span>
+		</section>
 
-            groups.forEach(group => {
-                const groupWrapper = document.createElement('div');
-                groupWrapper.className = 'unit-group';
+        <section class="mail-list">
+			<p>Join the mail list. Exclusive Insight, a chance to share any thoughts, and early spots for the virtual viewing of the upcoming live event.</p>
 
-                for (let i = 0; i < group.digits; i++) {
-                    const colObj = createColumn();
-                    groupWrapper.appendChild(colObj.slot);
-                    slots.push(colObj.column);
-                }
+			
+			<form 
+				action="https://buttondown.com/api/emails/embed-subscribe/dsmith" 
+				method="post" 
+				class="mail-form"
+				target="popupwindow" 
+				onsubmit="window.open('https://buttondown.com/api/emails/embed-subscribe/dsmith', 'popupwindow')"
+			>
+				<label for="bd-email" style="display: none;">Enter your email</label>
+				
+				<input type="email" name="email" id="bd-email" placeholder="Enter your email..." required />
+				<button type="submit">Join</button>
+			</form>
+			
+			<p class="powered-by">
+				<a href="https://buttondown.com/refer/dsmith" target="_blank"></a>
+			</p>
+		</section>
+        
+        
+	</main>
 
-                const labelSpan = document.createElement('span');
-                labelSpan.className = 'label';
-                labelSpan.innerText = group.label;
-                groupWrapper.appendChild(labelSpan);
+	<script>
+		const phaseOrder = ["checkin", "seeding", "pools", "de", "results"];
 
-                timerContainer.appendChild(groupWrapper);
-            });
-        }
+		function syncTrack() {
+			const control = document.querySelector("#checkin-sort-control");
+			const track = control?.querySelector(".segment-track");
+			const activeButton = control?.querySelector(".segment-btn.active");
+			if (!track || !activeButton) return;
+			track.style.left = `${activeButton.offsetLeft}px`;
+			track.style.width = `${activeButton.offsetWidth}px`;
+		}
 
-        function updateTimer() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+		function setPhase(phase) {
+			if (!phaseOrder.includes(phase)) return;
+			document.querySelectorAll(".segment-btn").forEach((button) => {
+				const isActive = button.dataset.displayPhase === phase;
+				button.classList.toggle("active", isActive);
+				button.setAttribute("aria-pressed", isActive ? "true" : "false");
+			});
+			syncTrack();
+		}
 
-            if (distance < 0) {
-                timerContainer.innerHTML = "Launched!";
-                return;
-            }
+		document.addEventListener("click", (event) => {
+			const button = event.target.closest("[data-display-phase]");
+			if (!button) return;
+			setPhase(button.dataset.displayPhase);
+		});
 
-            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((distance % (1000 * 60)) / 1000);
-
-            const timeString = 
-                String(d).padStart(2, '0') + 
-                String(h).padStart(2, '0') + 
-                String(m).padStart(2, '0') + 
-                String(s).padStart(2, '0');
-
-            [...timeString].forEach((digit, i) => {
-                if (slots[i]) {
-                    const moveAmount = digit * -1;
-                    slots[i].style.transform = `translateY(${moveAmount}em)`;
-                }
-            });
-        }
-
-        initTimer();
-        setInterval(updateTimer, 1000);
-        updateTimer();
-    </script>
+		window.addEventListener("resize", syncTrack);
+		window.addEventListener("load", syncTrack);
+	</script>
 </body>
 </html>
 
-<!-- 7 billion -->
+<!--yes, I know, I'm late...-->

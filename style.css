@@ -1,0 +1,318 @@
+@font-face {
+	font-family: "Neutron";
+	src: url("neutrond.ttf") format("truetype");
+	font-display: swap;
+}
+
+html, body {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	color: #fff;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	padding: 3rem 4rem;
+	box-sizing: border-box;
+	font-family: "Neutron", sans-serif;
+	overflow: hidden;
+}
+
+.page-shell {
+	width: min(100%, 1600px);
+}
+
+
+.hero-row {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 2rem;
+	flex-wrap: nowrap;
+	min-width: 0;
+	white-space: nowrap;
+}
+
+.hero-copy {
+	margin: 0;
+	font-size: clamp(1rem, 1.4vw, 1.75rem);
+	font-weight: 1;
+	line-height: 1.05;
+	white-space: nowrap;
+	letter-spacing: 0.04em;
+	-webkit-box-reflect: below 0.16em linear-gradient(transparent, rgba(255, 255, 255, 0.28));
+	text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 22px rgba(255, 255, 255, 0.08);
+}
+
+.display-stage-control {
+	flex: 0 1 720px;
+	min-width: 420px;
+	max-width: 720px;
+	-webkit-box-reflect: below 0.55em linear-gradient(transparent, rgba(255, 255, 255, 0.22));
+}
+
+.segmented-control {
+	position: relative;
+	display: flex;
+	align-items: stretch;
+	padding: 3px;
+	border-radius: 16px;
+	background: linear-gradient(180deg, #fdfdfd 0%, #b8b8b8 100%);
+	border: 1px solid rgba(0, 0, 0, 0.36);
+	box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.72), 0 1px 2px rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+}
+
+.segment-track {
+	position: absolute;
+	top: 3px;
+	bottom: 3px;
+	left: 3px;
+	width: 0;
+	box-sizing: border-box;
+	background: linear-gradient(180deg, #88c6ff 0%, #0077ff 100%);
+	border-radius: 13px;
+	box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.28);
+	border: 1px solid rgba(0, 0, 0, 0.36);
+	transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1), width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+	z-index: 1;
+}
+
+.segment-btn {
+	flex: 1;
+	min-width: 0;
+	text-align: center;
+	background: transparent;
+	border: none;
+	padding: 6px 14px;
+	font-size: 11px;
+	font-weight: 500;
+	color: #000000;
+	cursor: pointer;
+	transition: color 0.22s ease, text-shadow 0.22s ease;
+	font-family: "Neutron", sans-serif;
+	white-space: nowrap;
+	position: relative;
+	z-index: 2;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.segment-btn:hover {
+	color: #111111;
+}
+
+.segment-btn.active {
+	color: #ffffff;
+	background: transparent;
+	box-shadow: none;
+}
+
+.segment-btn[data-display-phase="de"] .display-stage-icon {
+	width: 16px;
+	height: 16px;
+	flex-basis: 16px;
+}
+
+.segment-btn[data-display-phase="de"] .display-stage-icon svg {
+	width: 16px;
+	height: 16px;
+	stroke-width: 2.5;
+}
+
+.display-stage-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 14px;
+	height: 14px;
+	flex: 0 0 14px;
+}
+
+.display-stage-icon svg {
+	width: 14px;
+	height: 14px;
+	stroke: currentColor;
+	fill: none;
+	stroke-width: 2.3;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.sub-hero {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	margin-top: 6rem;
+	font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+	font-weight: 300;
+	text-align: center;
+	text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 22px rgba(255, 255, 255, 0.08);
+}
+
+.sub-hero span {
+	display: inline-flex;
+	width: min(100%, 760px);
+	box-sizing: border-box;
+	align-items: center;
+	justify-content: center;
+	padding: 0.85rem 1rem;
+	border: 1px solid rgba(255, 255, 255, 0.09);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.03);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 14px 36px rgba(0, 0, 0, 0.22);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+}
+
+
+
+.mail-list {
+	margin-top: 10rem; /* Pushes it down below the sub-hero */
+	text-align: center;
+	
+	/* Slightly smaller text sizing than the sub-hero */
+	font-size: clamp(0.8rem, 1vw, 1rem); 
+	font-weight: 300;
+	color: rgba(255, 255, 255, 0.85); /* Slightly muting the color helps with hierarchy */
+	
+	text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 22px rgba(255, 255, 255, 0.08);
+}
+
+.mail-list > p:first-child {
+	margin: 10px 0;
+	-webkit-box-reflect: below 0.16em linear-gradient(transparent, rgba(255, 255, 255, 0.28));
+}
+
+.mail-list p {
+	margin: 100px 0 10px; /* Adds more space above the second line */
+}
+
+.mail-form {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	margin-top: 2.25rem;
+	position: relative;
+	z-index: 10;
+    -webkit-box-reflect: below 0.55em linear-gradient(transparent, rgba(255, 255, 255, 0.22));
+}
+
+.mail-form input[type="email"] {
+	padding: 0.8rem 1.2rem;
+	border-radius: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	background: rgba(0, 0, 0, 0.4);
+	color: #fff;
+	font-family: "Neutron", sans-serif;
+	font-size: 1rem;
+	width: 100%;
+	max-width: 300px;
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mail-form input[type="email"]:focus {
+	outline: none;
+	border-color: rgba(136, 198, 255, 0.8);
+	box-shadow: 0 0 12px rgba(0, 119, 255, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.mail-form input[type="email"]::placeholder {
+	color: rgba(255, 255, 255, 0.4);
+}
+
+.mail-form button {
+	padding: 0.8rem 1.5rem;
+	border-radius: 13px;
+	border: 1px solid rgba(0, 0, 0, 0.36);
+	background: linear-gradient(180deg, #88c6ff 0%, #0077ff 100%);
+	color: #fff;
+	font-family: "Neutron", sans-serif;
+	font-weight: bold;
+	font-size: 1rem;
+	cursor: pointer;
+	box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.28);
+	transition: filter 0.2s ease, transform 0.1s ease;
+}
+
+.mail-form button:hover {
+	filter: brightness(1.1);
+}
+
+.mail-form button:active {
+	transform: translateY(1px);
+}
+
+.powered-by {
+	margin-top: 3rem;
+	font-size: 0.75rem;
+}
+
+.powered-by a {
+	color: rgb(0, 0, 0);
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+.powered-by a:hover {
+	color: rgba(255, 255, 255, 0.7);
+}
+
+
+@media (max-width: 1120px) {
+	body {
+		place-items: start center;
+		padding: 2rem;
+	}
+
+	.hero-row {
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.display-stage-control {
+		min-width: min(100%, 420px);
+		max-width: 100%;
+		flex-basis: 100%;
+	}
+
+	.hero-copy {
+		white-space: normal;
+		max-width: 20ch;
+	}
+
+
+    .sub-hero {
+		flex-direction: column; /* Stacks the sentences vertically */
+		gap: 1.5rem;
+		white-space: normal;
+		text-align: center;
+		margin-top: 4rem;
+	}
+
+
+    .mail-list {
+		margin-top: 4rem; /* Tightens up the vertical spacing on mobile */
+		padding: 0 1rem; /* Adds a little breathing room on the left and right edges */
+	}
+
+	.mail-form {
+        
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.mail-form input[type="email"] {
+		max-width: 100%;
+	}
+}
