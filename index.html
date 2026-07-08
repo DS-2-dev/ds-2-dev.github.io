@@ -3,117 +3,41 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Home</title>
+	<title>Citri Software - Home</title>
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+	<link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<main class="page-shell">
-		<section class="hero-row">
-			<h1 class="hero-copy">The world of Fencing... is about to change</h1>
+	<svg class="goo-defs" aria-hidden="true">
+		<defs>
+			<filter id="gooey-filter">
+				<feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+				<feColorMatrix in="blur" mode="matrix"
+					values="1 0 0 0 0
+					        0 1 0 0 0
+					        0 0 1 0 0
+					        0 0 0 19 -9" result="goo" />
+				<feBlend in="SourceGraphic" in2="goo" />
+			</filter>
+			<mask id="trail-mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="1" height="1">
+				<rect id="trail-mask-bg" x="0" y="0" width="1" height="1" fill="#fff" />
+				<rect id="trail-mask-hole" x="0" y="0" width="0" height="0" fill="#000" />
+			</mask>
+		</defs>
+	</svg>
 
-			<div id="checkin-sort-control" class="display-stage-control" aria-label="Tournament lifecycle">
-				<div class="segmented-control">
-					<div class="segment-track"></div>
-					<button type="button" class="segment-btn active" data-display-phase="checkin" aria-pressed="true">
-						<span class="display-stage-icon" aria-hidden="true">
-							<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-						</span>
-						<span>Check-In</span>
-					</button>
-					<button type="button" class="segment-btn" data-display-phase="seeding" aria-pressed="false">
-						<span class="display-stage-icon" aria-hidden="true">
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4v16" /><path d="M16 4v16" /><path d="M4 8h16" /><path d="M4 16h16" /></svg>
-						</span>
-						<span>Seeding</span>
-					</button>
-					<button type="button" class="segment-btn" data-display-phase="pools" aria-pressed="false">
-						<span class="display-stage-icon" aria-hidden="true">
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="8" height="8" rx="1.5"></rect><rect x="12" y="12" width="8" height="8" rx="1.5"></rect></svg>
-						</span>
-						<span>Pools</span>
-					</button>
-					<button type="button" class="segment-btn" data-display-phase="de" aria-pressed="false">
-						<span class="display-stage-icon" aria-hidden="true">
-							<svg viewBox="0 0 32 32"><path d="M 6 8 h 8 v 8 h 12 M 6 24 h 8 v -8" fill="none"></path></svg>
-						</span>
-						<span>Direct Elim</span>
-					</button>
-					<button type="button" class="segment-btn" data-display-phase="results" aria-pressed="false">
-						<span class="display-stage-icon" aria-hidden="true">
-							<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-						</span>
-						<span>Results</span>
-					</button>
-				</div>
-			</div>
-		</section>
+	<div id="pixel-trail" class="pixel-trail"></div>
 
+	<div class="frame"></div>
 
+	<p class="quote"><span class="quote-inner">Evolution is the secret for the next <span class="accent-word" data-cascade="step">step</span>. &mdash; Karl Lagerfeld</span></p>
 
-
-        <section class="sub-hero">
-			<span>A revolutionary way to run a tournament.</span>
-			<span>A powerful analytics machine to predict winners.</span>
-			<span>And the entire fencing experience, down to the size of your pocket&hellip;</span>
-		</section>
-
-        <section class="mail-list">
-			<p>Join the mail list. Exclusive Insight, a chance to share any thoughts, and early spots for the virtual viewing of the upcoming live event.</p>
-
-			
-			<form 
-				action="https://buttondown.com/api/emails/embed-subscribe/dsmith" 
-				method="post" 
-				class="mail-form"
-				target="popupwindow" 
-				onsubmit="window.open('https://buttondown.com/api/emails/embed-subscribe/dsmith', 'popupwindow')"
-			>
-				<label for="bd-email" style="display: none;">Enter your email</label>
-				
-				<input type="email" name="email" id="bd-email" placeholder="Enter your email..." required />
-				<button type="submit">Join</button>
-			</form>
-			
-			<p class="powered-by">
-				<a href="https://buttondown.com/refer/dsmith" target="_blank"></a>
-			</p>
-		</section>
-        
-        
-	</main>
-
-	<script>
-		const phaseOrder = ["checkin", "seeding", "pools", "de", "results"];
-
-		function syncTrack() {
-			const control = document.querySelector("#checkin-sort-control");
-			const track = control?.querySelector(".segment-track");
-			const activeButton = control?.querySelector(".segment-btn.active");
-			if (!track || !activeButton) return;
-			track.style.left = `${activeButton.offsetLeft}px`;
-			track.style.width = `${activeButton.offsetWidth}px`;
-		}
-
-		function setPhase(phase) {
-			if (!phaseOrder.includes(phase)) return;
-			document.querySelectorAll(".segment-btn").forEach((button) => {
-				const isActive = button.dataset.displayPhase === phase;
-				button.classList.toggle("active", isActive);
-				button.setAttribute("aria-pressed", isActive ? "true" : "false");
-			});
-			syncTrack();
-		}
-
-		document.addEventListener("click", (event) => {
-			const button = event.target.closest("[data-display-phase]");
-			if (!button) return;
-			setPhase(button.dataset.displayPhase);
-		});
-
-		window.addEventListener("resize", syncTrack);
-		window.addEventListener("load", syncTrack);
-	</script>
+	<script src="pixel-trail.js"></script>
+	<script src="cascade-text.js"></script>
 </body>
 </html>
-
-<!--yes, I know, I'm late...-->
